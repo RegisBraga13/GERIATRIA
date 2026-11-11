@@ -1,0 +1,35 @@
+.DS_Store
+__pycache__/
+.venv/
+.venv-rag/
+*.py[cod]
+.env
+.env.*
+!.env.example
+rag_sources.local.json
+# Catalogo da store de diretrizes. Fora do Git pela mesma razao do de cima: diz
+# o que ha no acervo e os file_id da conta.
+guidelines_sources.local.json
+# Texto de livro extraido do PDF. Fora do Git pela mesma razao que os PDFs:
+# e o livro. Cada um gera o seu com scripts/build_book_chapters.py.
+book_chapters.local.json
+# Criterios diagnosticos recortados do DSM-5-TR. Mesmo motivo: e o livro.
+# Cada um gera o seu com scripts/build_dsm_criteria.py.
+dsm_criteria.local.json
+
+# Áudios de teste não entram no versionamento, mas os testes automatizados sim
+testes/*
+!testes/*.py
+!testes/js/
+# Corpus de medicao das diretrizes: casos ficticios, sem dado de paciente.
+!testes/diretrizes_corpus.json
+
+# Teste do JEV: material de trabalho, fora do repositorio
+docs/teste-jev/
+
+# Arquivo de anotacao com a chave em texto puro. Nunca versionar.
+chave*.txt
+*chave*.txt
+
+# Anotacao dos file_id de stores apagadas, para reassociar sem novo upload.
+.stores_apagadas.json

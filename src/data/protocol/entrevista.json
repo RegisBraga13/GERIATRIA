@@ -1,0 +1,114 @@
+{
+  "fonte": "Roteiro original de avaliação geriátrica, organizado com base nos domínios ICOPE da OMS e na avaliação multidimensional do Ministério da Saúde",
+  "blocos": [
+    {
+      "sinais_de_alerta": [],
+      "obrigatorio": [],
+      "campo": "funcionalidade",
+      "achados": [
+        {
+          "achado": "Perda de autonomia nas atividades diárias"
+        }
+      ],
+      "perguntas": [
+        {
+          "id": "g:funcionalidade:1",
+          "quando": "Suspeita de perda de autonomia",
+          "pergunta": "Em quais atividades do dia a dia a pessoa precisa de ajuda, e desde quando?"
+        }
+      ]
+    },
+    {
+      "sinais_de_alerta": [],
+      "obrigatorio": [],
+      "campo": "mobilidade",
+      "achados": [
+        {
+          "achado": "Quedas ou redução da mobilidade"
+        }
+      ],
+      "perguntas": [
+        {
+          "id": "g:mobilidade:1",
+          "quando": "Queda ou dificuldade para andar",
+          "pergunta": "Houve quedas nos últimos doze meses? Como ocorreram e houve lesão?"
+        }
+      ]
+    },
+    {
+      "sinais_de_alerta": [
+        {
+          "conduta": "Investigar causa clínica e necessidade de avaliação urgente.",
+          "id": "g:cognicao:a1",
+          "sinal": "Mudança aguda do estado mental"
+        }
+      ],
+      "obrigatorio": [],
+      "campo": "cognicao",
+      "achados": [
+        {
+          "achado": "Declínio cognitivo ou confusão aguda"
+        }
+      ],
+      "perguntas": [
+        {
+          "id": "g:cognicao:1",
+          "quando": "Queixa cognitiva ou relato de confusão",
+          "pergunta": "A mudança de memória ou atenção começou de forma súbita ou progressiva?"
+        }
+      ]
+    },
+    {
+      "sinais_de_alerta": [],
+      "obrigatorio": [],
+      "campo": "vitalidade",
+      "achados": [
+        {
+          "achado": "Perda de peso ou dificuldade alimentar"
+        }
+      ],
+      "perguntas": [
+        {
+          "id": "g:vitalidade:1",
+          "quando": "Perda ponderal ou redução do apetite",
+          "pergunta": "Perdeu peso sem intenção ou passou a comer menos? Há dificuldade para mastigar ou engolir?"
+        }
+      ]
+    },
+    {
+      "sinais_de_alerta": [],
+      "obrigatorio": [],
+      "campo": "sentidos",
+      "achados": [
+        {
+          "achado": "Dificuldade visual ou auditiva"
+        }
+      ],
+      "perguntas": [
+        {
+          "id": "g:sentidos:1",
+          "quando": "Queixa visual ou auditiva",
+          "pergunta": "A visão ou a audição atrapalham conversas, leitura ou atividades diárias?"
+        }
+      ]
+    },
+    {
+      "sinais_de_alerta": [],
+      "obrigatorio": [],
+      "campo": "apoio",
+      "achados": [
+        {
+          "achado": "Necessidade de apoio social ou do cuidador"
+        }
+      ],
+      "perguntas": [
+        {
+          "id": "g:apoio:1",
+          "quando": "Dependência funcional ou suporte limitado",
+          "pergunta": "Quem ajuda em casa e o cuidador consegue manter esse apoio?"
+        }
+      ]
+    }
+  ],
+  "aviso": "Perguntas de apoio ao registro; não substituem julgamento clínico."
+}

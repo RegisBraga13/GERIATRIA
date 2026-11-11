@@ -1,0 +1,3085 @@
+@font-face {
+  font-family: Sora;
+  src: url("../../fonts/Sora-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root  {
+  --bg: #071114;
+  --surface: #0e1b20;
+  --surface-2: #13252b;
+  --line: #254148;
+  --text: #eef7f5;
+  --muted: #9db0ae;
+  --primary: #0f5961;
+  --primary-2: #16808b;
+  --sage: #9ab8a7;
+  --amber: #d79a35;
+  --danger: #cf5b5b;
+  --shadow: 0 20px 70px rgba(0, 0, 0, .28);
+  --radius: 8px;
+  font-family: Sora, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body.light  {
+  --bg: #edf1f0;
+  --surface: #ffffff;
+  --surface-2: #f6f8f7;
+  --line: #d5ddda;
+  --text: #172225;
+  --muted: #60706f;
+  --primary: #0f5961;
+  --primary-2: #0d737d;
+  --sage: #688d78;
+  --amber: #a66f13;
+  --danger: #b74242;
+  --shadow: 0 18px 48px rgba(25, 43, 48, .12);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button:hover { border-color: var(--primary-2); }
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand h1 {
+  margin: 0;
+  line-height: 1.15;
+}
+
+.brand p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.top-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.container  {
+  margin: 0 auto;
+  min-width: 0;
+}
+
+.conflict-review {
+  margin: 18px 0;
+  padding: 20px;
+  border: 2px solid var(--amber);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.conflict-review h2 { margin: 0 0 8px; }
+.conflict-review p { line-height: 1.5; }
+.conflict-copies { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.conflict-copies details { min-width: 0; border: 1px solid var(--line); padding: 12px; }
+.conflict-copies summary { cursor: pointer; font-weight: 700; }
+.conflict-copies pre { max-height: 360px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 800px) { .conflict-copies { grid-template-columns: 1fr; } }
+
+.dashboard  {
+  gap: 14px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.dash-button {
+  min-width: 0;
+  text-align: left;
+  align-content: space-between;
+}
+
+.dash-icon, .icon {
+  width: 38px;
+  height: 38px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--sage) 18%, transparent);
+  color: var(--sage);
+  font-weight: 800;
+}
+
+.dash-button strong {
+  display: block;
+  margin-top: 18px;
+  font-size: 23px;
+}
+
+.dash-button span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.35;
+  font-size: 17px;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  max-width: 100%;
+}
+
+.dash-button * {
+  min-width: 0;
+  white-space: normal;
+}
+
+.layout {
+  display: grid;
+  align-items: start;
+}
+
+.side, .panel, .section, dialog {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.side {
+  position: sticky;
+}
+
+.nav-button {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.nav-button.active  {
+  border-color: var(--primary-2);
+}
+
+.panel-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel-title h2 {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.panel-title p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.patient-grid {
+  grid-template-columns: minmax(220px, 1.8fr) repeat(3, minmax(130px, 1fr));
+}
+
+.patient-grid > label:nth-child(n + 5) {
+  grid-column: span 1;
+}
+
+label {
+  display: grid;
+}
+
+input, select, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  outline: none;
+}
+
+textarea  {
+  resize: vertical;
+}
+
+details.section {
+  margin-bottom: 12px;
+  padding: 0;
+  overflow: hidden;
+}
+
+summary {
+  cursor: pointer;
+  min-height: 54px;
+  padding: 15px 16px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+summary::-webkit-details-marker { display: none; }
+summary:after { content: "+"; color: var(--sage); font-size: 26px; }
+details[open] summary:after { content: "-"; }
+
+.section-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--line);
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 6px 0 12px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+}
+
+/* O chip tem a mesma cara com radio ou com caixa de marcar, decisao dele em
+   02/09/2026: "alguns sao botao radio e outros caixinhas -- ficou feio". Numa
+   pagina como a Evolucao do retorno, onde as duas formas se alternam bloco a
+   bloco, a mistura de bolinha e quadradinho lia como desalinho, e nao como
+   informacao.
+   O que separa os dois continua inteiro, e no lugar certo: e comportamento, nao
+   desenho. Marcar um radio solta o irmao; marcar uma caixa nao. Quem opera
+   aprende isso no primeiro clique, e nao pela forma do simbolo. */
+/* A caixa de marcar do programa inteiro, radio incluido: uma regra so, sem
+   seletor de componente na frente. Ate 14/09/2026 ela so valia dentro do
+   .chip, e a anamnese estruturada, o diagnostico e a fonte da IA caiam na
+   caixa nativa do sistema, cada uma de um tamanho.
+   Terracota, como o accent-color do body: e a unica cor quente da paleta, e o
+   que esta marcado le-se sem procurar. O tique usa a cor da superficie, entao
+   contrasta nos dois temas (branco no claro, escuro no escuro).
+   22px: a caixa de 18px sumia numa tela cheia delas. */
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 1.5px solid color-mix(in srgb, var(--terracota-ink) 45%, var(--line));
+  border-radius: 5px;
+  background: var(--surface);
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  border-color: var(--terracota-ink);
+  background: var(--terracota-ink);
+}
+
+/* O tique: dois lados de uma caixa, girados. Desenhado em vez de tipografado
+   porque glifo de check muda de forma e de peso conforme a fonte instalada. */
+input[type="checkbox"]:checked::after,
+input[type="radio"]:checked::after {
+  content: "";
+  width: 6px;
+  height: 11px;
+  margin-top: -3px;
+  border: solid var(--surface);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Estado marcado tambem na caixa inteira: numa tela cheia delas, a caixinha
+   sozinha nao carrega a leitura do que esta selecionado. */
+@supports selector(:has(*)) {
+  .chip:has(input:checked),
+  .diagnosis-option:has(input:checked),
+  .ai-mode-selector label:has(input:checked) {
+    border-color: var(--terracota-ink);
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.page-tabs {
+  display: flex;
+  overflow-x: auto;
+  padding: 4px 0 14px;
+  margin-bottom: 12px;
+  scrollbar-width: thin;
+}
+
+.page-tabs button {
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 0 13px;
+  color: var(--muted);
+}
+
+/* Pagina ainda nao alcancada: so se chega nela por "Salvar e avancar". */
+.page-tabs button.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.page-tabs button.active  {
+  border-color: var(--primary-2);
+}
+
+.clinical-page {
+  display: grid;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 16px;
+}
+
+.clinical-page-title h3 {
+  margin: 0;
+}
+
+.clinical-card {
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--sage) 40%, var(--line));
+  background: color-mix(in srgb, var(--sage) 8%, var(--surface));
+}
+
+.clinical-card h4 {
+  margin: 0 0 12px;
+}
+
+/* A analise psicopatologica abre o Diagnostico. Nao tem caixa de selecao: nao
+   ha o que assinalar num raciocinio, e o que se assinala vem logo abaixo. */
+.analysis-card {
+  margin-bottom: 14px;
+}
+
+.analysis-list {
+  margin: 12px 0 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+  line-height: 1.55;
+}
+
+.analysis-list li::marker {
+  color: color-mix(in srgb, var(--sage) 70%, var(--line));
+}
+
+.anamnesis-guide {
+  display: grid;
+  gap: 14px;
+}
+
+.guide-group {
+  display: grid;
+  gap: 10px;
+}
+
+.guide-group > strong {
+  color: var(--text);
+}
+
+.guide-items {
+  display: grid;
+  gap: 10px;
+}
+
+.guide-items section {
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface-2) 72%, transparent);
+}
+
+.guide-items span {
+  display: block;
+  color: var(--text);
+  margin-bottom: 7px;
+}
+
+.guide-items ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text);
+}
+
+.guide-items li + li {
+  margin-top: 6px;
+}
+
+.risk-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.risk-choice,
+.risk-text {
+  display: grid;
+  gap: 8px;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.risk-choice p {
+  margin: 0;
+}
+
+.structured-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.structured-question {
+  margin: 0;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.manual-anamnesis {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.anamnesis-mode-selector {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.anamnesis-mode-selector button {
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.anamnesis-mode-selector button.active {
+  border-color: var(--primary-2);
+  background: color-mix(in srgb, var(--primary-2) 13%, var(--surface));
+  color: var(--text);
+  font-weight: 700;
+}
+
+.address-card {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--sage) 40%, var(--line));
+  background: color-mix(in srgb, var(--sage) 8%, var(--surface));
+}
+
+/* Endereco num unico grid de 12 colunas (sem sub-grid aninhado, que impedia
+   alinhar as caixas entre as linhas). A base de 12 permite dar aos campos
+   curtos (CEP, Numero, UF) uma fracao menor que 1/4, o que faz os 7 campos
+   caberem em 2 linhas:
+
+     CEP 2  | Endereco 8 .................... | Numero 2
+     Bairro 4 ..... | Cidade 4 ..... | UF 1 | Complemento 3 ...              */
+.address-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.address-grid > label:has(input[name="endereco"]) { grid-column: span 8; }
+.address-grid > label:has(input[name="bairro"]),
+.address-grid > label:has(input[name="cidade"]) { grid-column: span 4; }
+.address-grid > label:has(input[name="complemento"]) { grid-column: span 3; }
+.address-grid > label:has(input[name="cep"]),
+.address-grid > label:has(input[name="numero"]) { grid-column: span 2; }
+.address-grid > label:has(input[name="estado"]) { grid-column: span 1; }
+
+.primary  {
+  padding: 0 16px;
+}
+
+.secondary  {
+  padding: 0 14px;
+}
+
+.secondary.active  {
+  color: var(--text);
+}
+
+.danger  {
+  padding: 0 14px;
+}
+
+.warning {
+  border-left: 4px solid var(--amber);
+  padding: 12px;
+  border-radius: var(--radius);
+  color: var(--text);
+  margin: 12px 0;
+}
+
+.risk-screen-banner:empty {
+  display: none;
+}
+
+.risk-screen-status {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.risk-screen-status.risk-screen-error {
+  color: var(--danger);
+}
+
+.risk-screen-status.risk-screen-clear {
+  color: var(--sage);
+}
+
+.risk-screen-alert {
+  border-left: 4px solid var(--danger);
+  background: color-mix(in srgb, var(--danger) 14%, var(--surface));
+  padding: 12px;
+  border-radius: var(--radius);
+  color: var(--text);
+  margin: 10px 0 0;
+  font-size: 13px;
+}
+
+.risk-screen-alert ul {
+  margin: 6px 0;
+  padding-left: 18px;
+}
+
+.risk-screen-alert small {
+  display: block;
+  color: var(--muted);
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.record-opened {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.inline-action {
+  min-height: 34px;
+  flex: 0 0 auto;
+}
+
+.diagnosis-ai-panel {
+  border: 1px solid color-mix(in srgb, var(--primary-2) 32%, var(--line));
+  background: color-mix(in srgb, var(--primary-2) 8%, var(--surface));
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 14px;
+}
+/* Gerar e Refinar centralizados sob os dois cartoes de fonte, por decisao dele
+   (31/08/2026): os botoes agem sobre a fonte escolhida acima, e alinhados a
+   esquerda pareciam pertencer so ao cartao da esquerda. */
+.diagnosis-ai-panel > .actions { justify-content: center; }
+
+.summary-section { margin-top: 14px; }
+.summary-section h4 { margin: 0 0 9px; font-size: 21px; }
+.summary-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+.summary-table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 16px; }
+.summary-table th, .summary-table td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.summary-table th { color: var(--muted); background: var(--surface-2); font-size: 14px; text-transform: uppercase; letter-spacing: .04em; }
+.summary-table tr:last-child td { border-bottom: 0; }
+/* A tabela tem 2 ou 3 colunas conforme o layout do bloco, entao as larguras
+   sao ancoradas no papel da coluna (rotulo / registro) e nao na posicao:
+   a primeira e sempre rotulo, a ultima e sempre o registro. */
+.summary-table td:first-child { min-width: 150px; font-weight: 700; }
+.summary-table td:nth-child(2):not(:last-child) { min-width: 220px; }
+.summary-table td:last-child { min-width: 280px; font-weight: 400; color: var(--text); }
+
+.ai-mode-selector {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 14px 0;
+  padding: 0;
+  border: 0;
+}
+
+.ai-mode-selector legend {
+  grid-column: 1 / -1;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.ai-mode-selector label {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.ai-mode-selector span { color: var(--text); font-weight: 700; }
+
+/* Fica logo abaixo do botao Gerar, discreta: e procedencia, nao resultado. */
+.rag-consulted { margin: 10px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.rag-consulted strong { color: var(--text); font-weight: 600; }
+.rag-sources { margin-top: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
+.rag-sources summary { cursor: pointer; color: var(--text); font-weight: 700; }
+.rag-sources ol { margin: 10px 0 0; padding-left: 20px; }
+.rag-sources li + li { margin-top: 8px; }
+.rag-sources li span { display: block; color: var(--muted); font-size: 14px; }
+
+.diagnosis-options {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.diagnosis-group {
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface) 86%, var(--surface-2));
+}
+.diagnosis-group h4 {
+  margin: 0;
+}
+.diagnosis-group .diagnosis-options {
+  margin: 14px 0 0;
+}
+.diagnosis-empty {
+  margin: 0;
+  padding: 14px;
+  border: 1px dashed var(--line);
+  border-radius: 9px;
+  color: var(--muted);
+  text-align: center;
+}
+.diagnosis-doctor-group {
+  border-left: 2px solid color-mix(in srgb, var(--primary-2) 65%, var(--line));
+}
+
+.diagnosis-option {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* Texto de varias linhas: a caixa acompanha a primeira, nao o meio. */
+.diagnosis-option input {
+  margin-top: 3px;
+}
+
+.diagnosis-option span  {
+  overflow-wrap: anywhere;
+}
+
+.treatment-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.treatment-card {
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--sage) 36%, var(--line));
+  background: color-mix(in srgb, var(--surface-2) 72%, var(--surface));
+  padding: 12px;
+}
+
+.treatment-card h4 {
+  margin: 0 0 12px;
+  color: var(--text);
+}
+
+.treatment-card textarea[hidden] {
+  display: none;
+}
+
+.treatment-option {
+  background: color-mix(in srgb, var(--surface-2) 82%, var(--accent-soft));
+}
+
+/* Sem max-width + margin:auto: isso encolhia e centralizava o bloco dentro
+   do card, deixando-o desalinhado do titulo "Medicamentos" e mais estreito
+   que o card. Agora ocupa a largura toda, alinhado com o titulo. */
+.medication-reference {
+  width: 100%;
+}
+
+.medication-reference-head {
+  max-width: 720px;
+  margin-bottom: 22px;
+}
+
+.medication-reference-head h3,
+.medication-reference-title h3 {
+  margin: 5px 0 7px;
+  font-size: clamp(34px, 3vw, 49px);
+}
+
+.medication-search-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.medication-search-shell:focus-within {
+  border-color: var(--primary-2);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-2) 14%, transparent);
+}
+
+.medication-search-shell input {
+  min-height: 58px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.medication-search-icon {
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 33px;
+}
+
+.medication-clear {
+  min-width: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 31px;
+}
+
+.medication-suggestions {
+  display: none;
+  margin-top: 6px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.medication-suggestions.is-open {
+  display: grid;
+}
+
+.medication-suggestions button {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+
+.medication-suggestions button:hover {
+  background: var(--surface-2);
+}
+
+.medication-suggestions span,
+.medication-suggestions p,
+.medication-source-status {
+  color: var(--muted);
+}
+
+.medication-empty-state {
+  margin-top: 18px;
+  padding: 48px 24px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.medication-empty-state > span  {
+  font-size: 52px;
+  color: var(--primary-2);
+}
+
+.medication-reference-card {
+  margin-top: 20px;
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.medication-reference-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: start;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.medication-class {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--primary-2);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.medication-facts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+}
+
+.medication-fact {
+  padding: 20px 20px 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.medication-fact:nth-child(even) {
+  padding-left: 20px;
+  border-left: 1px solid var(--line);
+}
+
+.medication-fact h4 {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.medication-fact p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Caixa dos BIPP TIPS. Destacada por borda lateral, e nao por cor de fundo
+   forte: o conteudo e clinico, nao aviso de risco, e a ficha inteira e de
+   leitura. A fonte no topo existe porque a caixa reproduz uma secao de um livro
+   nomeado — sem a linha, viraria mais um campo escrito pela IA. */
+.medication-bipp-tips {
+  margin-top: 20px;
+  padding: 16px 20px;
+  border-left: 3px solid var(--sage);
+  background: var(--surface-2);
+  border-radius: 8px;
+}
+
+.medication-bipp-tips h4 {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: 0.06em;
+}
+
+.medication-bipp-source {
+  margin: 2px 0 12px;
+  color: var(--muted);
+  font-size: var(--type-micro);
+}
+
+.medication-bipp-tips ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.medication-bipp-tips li {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.medication-bipp-tips li + li {
+  margin-top: 10px;
+}
+
+/* Capitulo do livro. Coluna estreita e entrelinha larga porque aqui se le
+   corrido, e nao se consulta campo — e a unica parte do programa que e leitura
+   de livro, e nao prontuario. */
+.book-chapter {
+  margin-top: 20px;
+  padding: 24px 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  max-width: 72ch;
+}
+
+/* O cabecalho e o controle: clicar nele fecha o capitulo. Dai o cursor e o
+   triangulo do <details>, alinhado com a primeira linha do titulo. */
+.book-chapter > summary {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+  cursor: pointer;
+  list-style-position: outside;
+}
+
+.book-chapter > summary::marker {
+  color: var(--muted);
+}
+
+.book-chapter > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.book-chapter h3 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.book-chapter h4 {
+  margin: 26px 0 10px;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+
+.book-chapter p {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.book-chapter strong {
+  color: var(--text);
+}
+
+/* Item dos BIPP TIPS: o livro os marca com bolinha, e a tela repete a marca. */
+.book-chapter-item {
+  position: relative;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.book-chapter-item::before {
+  content: "●";
+  position: absolute;
+  left: 0;
+  color: var(--sage);
+  font-size: 11px;
+  top: 5px;
+}
+
+.medication-reference-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.medication-reference-links a {
+  color: var(--primary-2);
+  font-weight: 700;
+  font-size: 17px;
+}
+
+/* Duas coisas diferentes com a mesma cara ate 23/09/2026. `.online-status` e a
+   caixa de status da IA, e agora carrega o TOM da mensagem -- falha, espera ou
+   feito. `.panel-note` e a nota explicativa fixa do cartao, que nunca foi
+   status: usava a classe so pelo cinza, e ganhava role="status" por tabela. */
+.online-status,
+.panel-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* A busca subiu para cima do prontuario em 02/09/2026, e deixou de ser coluna.
+   Ela ocupava 45% da largura de forma permanente para desenhar um campo de
+   texto, e o que sobrava tinha de caber o registro inteiro. Com o caso em duas
+   colunas, essa largura passou a ser o que falta. */
+.record-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.timeline {
+  display: grid;
+  gap: 10px;
+}
+
+/* O caso: consulta a esquerda, retorno a direita, decisao dele em 02/09/2026.
+   As duas colunas se alinham pelo topo e crescem juntas -- o que se compara e o
+   inicio de cada uma, e nao o rodape. */
+.timeline-case {
+  display: grid;
+  gap: 10px;
+}
+
+.timeline-case.paired {
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+/* Coluna unica quando nao ha largura para duas: lado a lado espremido lê pior
+   do que empilhado, e a ordem empilhada continua sendo consulta e depois
+   retorno. */
+@media (max-width: 900px) {
+  .timeline-case.paired { grid-template-columns: 1fr; }
+}
+
+.timeline-item {
+  border-left: 3px solid var(--primary-2);
+  padding: 10px 12px;
+  border-radius: var(--radius);
+}
+
+.timeline-item h4 { margin: 0 0 6px; }
+.timeline-item p {
+  margin: 0;
+  color: var(--muted);
+  white-space: pre-wrap;
+}
+
+.hidden { display: none !important; }
+
+@media print {
+  body { background: white; color: #111; }
+  .topbar, .side, .actions, .dashboard { display: none !important; }
+  .container, .panel { padding: 0; box-shadow: none; border: 0; }
+}
+
+/* Premium clinical workspace */
+:root {
+  --bg: #0a100f;
+  --surface: #111a18;
+  --surface-2: #17221f;
+  --line: rgba(211, 225, 216, .12);
+  --text: #f2f3ee;
+  --muted: #99a49f;
+  --primary: #285c4d;
+  --primary-2: #55a184;
+  --sage: #b5cdbf;
+  --amber: #d2a963;
+  --danger: #a84f4f;
+  --shadow: 0 26px 70px rgba(0, 0, 0, .26);
+  --radius: 14px;
+}
+
+body.light {
+  --bg: #f1f2ed;
+  --surface: #fbfcf8;
+  --surface-2: #f3f5f0;
+  --line: rgba(32, 58, 49, .13);
+  --text: #15231e;
+  --muted: #68756f;
+  --primary: #245747;
+  --primary-2: #347b63;
+  --sage: #4e7867;
+  --shadow: 0 24px 65px rgba(35, 58, 50, .09);
+}
+
+button { transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease; }
+button:hover { transform: translateY(-1px); }
+
+.topbar  {
+  padding: calc(14px + env(safe-area-inset-top)) clamp(20px, 4vw, 64px) 14px;
+  border-bottom-color: var(--line);
+}
+
+.brand { display: flex; align-items: center; gap: 13px; }
+.brand-mark {
+  width: 42px; height: 42px; display: grid; place-items: center;
+  border: 1px solid color-mix(in srgb, var(--sage) 44%, transparent);
+  border-radius: 50%; font: 600 16px/1 Georgia, serif;
+}
+.brand h1 { font: 500 26px/1.1 Georgia, "Times New Roman", serif; }
+.brand p { margin-top: 4px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
+.secure-status { display: inline-flex; align-items: center; gap: 8px; }
+.secure-status i { width: 6px; height: 6px; border-radius: 50%; }
+.icon-button, .compact-action { background: transparent; border-color: var(--line); }
+.icon-button { width: 42px; padding: 0; display: grid; place-items: center; border-radius: 50%; }
+.compact-action { display: inline-flex; gap: 7px; align-items: center; padding: 0 13px; }
+
+.dashboard { display: block; }
+.dashboard-intro { display: flex; justify-content: space-between; padding-bottom: 30px; }
+.dashboard-intro h2  { font: 400 clamp(44px, 5vw, 75px)/1.05 Georgia, "Times New Roman", serif; }
+.today strong { font: 400 23px/1.2 Georgia, serif; }
+
+.dashboard-metrics { display: grid; }
+.dashboard-metrics > div  { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+.dashboard-metrics > div > strong { font: 400 42px/1 Georgia, serif; }
+.quick-heading { display: flex; justify-content: space-between; }
+.quick-heading span { font: 400 29px/1.2 Georgia, serif; }
+.dashboard-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.dash-button  { display: flex; flex-direction: column; align-items: flex-start; overflow: hidden;
+}
+.dash-button::after { content: ""; position: absolute; width: 140px; height: 140px; right: -75px; top: -80px; border: 1px solid color-mix(in srgb, var(--sage) 16%, transparent); border-radius: 50%; transition: .3s ease; }
+.dash-button:hover::after { transform: scale(1.3); }
+.card-number { position: absolute; }
+.dash-icon { width: 46px; height: 46px; margin: 0; border: 1px solid color-mix(in srgb, var(--sage) 24%, transparent); }
+.dash-button .dash-copy strong  { font: 400 26px/1.2 Georgia, serif; }
+.card-arrow { position: absolute; }
+.session-exit  { display: flex; gap: 8px; align-items: center; border: 0; background: transparent; }
+.layout { grid-template-columns: 220px minmax(0, 1fr); gap: 24px; }
+.side { top: 106px; padding: 15px; border: 0; }
+.side-label { padding: 7px 11px 13px; color: var(--muted); letter-spacing: .18em; }
+.nav-button  { padding: 10px 12px; border: 0; background: transparent; color: var(--muted); }
+.nav-button .icon { width: 30px; height: 30px; background: transparent; color: inherit; }
+.nav-button .icon svg { width: 18px; }
+.nav-button.active  { border: 0; }
+.side-foot { display: flex; align-items: center; gap: 10px; margin-top: 28px; padding: 16px 9px 4px; border-top: 1px solid var(--line); }
+.side-foot > span { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; }
+.side-foot div { display: grid; gap: 2px; }
+.side-foot strong  { }.side-foot small { color: var(--muted); font-size: 12px; }
+.panel { padding: clamp(20px, 3vw, 38px); }
+.panel-title  { padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+.panel-title h2 { font: 400 clamp(34px, 3vw, 49px)/1.1 Georgia, serif; }
+.panel-title p { margin-top: 9px; }
+
+.primary { border-radius: 10px; }
+.clinical-page, .clinical-card, .section, .address-card, .treatment-card { border-radius: 14px; }
+.page-tabs { gap: 2px; border-bottom: 1px solid var(--line); }
+.page-tabs button { border: 0; border-radius: 0; background: transparent; }
+.page-tabs button.active { background: transparent; border-bottom: 2px solid var(--primary-2); color: var(--text); }
+
+@media (max-width: 980px) {
+  .dashboard-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .side-foot, .side-label { display: none; }
+}
+@media (max-width: 640px) {
+  .secure-status { display: none; }
+  .topbar { min-height: auto; flex-direction: row; align-items: center; }
+  .brand p { display: none; }
+  .compact-action span { display: none; }
+  .dashboard-intro { align-items: flex-start; }
+  .today { display: none; }
+  .dashboard-metrics { grid-template-columns: 1fr 1fr; margin-bottom: 34px; }
+  .dashboard-metrics .privacy-note { grid-column: 1 / -1; }
+  .dashboard-actions { grid-template-columns: 1fr; }
+  .dash-button { min-height: 170px; }
+  .quick-heading small { display: none; }
+  .panel { padding: 18px; }
+}
+
+/* Editorial warm theme — paper, ink and amber */
+:root  {
+  --bg: #191919;
+  --surface: #20201f;
+  --surface-2: #282725;
+  --line: rgba(248, 241, 230, .11);
+  --text: #f4efe7;
+  --muted: #aaa39a;
+  --primary: #a95712;
+  --primary-2: #d97706;
+  --sage: #d6b98a;
+  --amber: #d97706;
+  --danger: #b8564f;
+  --shadow: none;
+  --radius: 10px;
+}
+
+body.light  {
+  --bg: #fbf9f6;
+  --surface: #fffdf9;
+  --surface-2: #f4efe8;
+  --line: rgba(63, 48, 40, .13);
+  --text: #1d1816;
+  --muted: #746b65;
+  --primary: #b85f0b;
+  --primary-2: #d97706;
+  --sage: #8a6849;
+  --amber: #d97706;
+  --danger: #a94740;
+  --shadow: none;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar {
+  min-height: 76px;
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+}
+
+.brand h1 { color: var(--text); }
+.eyebrow,
+.dash-icon,
+.icon-button,
+.secondary,
+summary::after {
+  color: var(--primary-2);
+}
+
+.dashboard-intro { padding-top: clamp(10px, 2vw, 24px); }
+.dashboard-metrics  {
+  border-color: var(--line);
+}
+.dash-button  {
+  border-color: var(--line);
+}
+.dash-icon {
+  border-radius: 10px;
+  border-color: color-mix(in srgb, var(--primary-2) 22%, var(--line));
+  background: color-mix(in srgb, var(--primary-2) 9%, transparent);
+}
+.side,
+.panel,
+.clinical-page,
+.clinical-card,
+.section,
+.address-card,
+.treatment-card,
+.diagnosis-ai-panel {
+  box-shadow: none;
+}
+.side {
+  background: transparent;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  padding-right: 22px;
+}
+.nav-button { border-radius: 8px; }
+.nav-button.active {
+  background: color-mix(in srgb, var(--primary-2) 12%, transparent);
+  color: var(--text);
+}
+.nav-button.active .icon { color: var(--primary-2); }
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.panel-title {
+  align-items: end;
+  margin-bottom: 32px;
+}
+input,
+select,
+textarea {
+  background: var(--surface-2);
+  border-color: var(--line);
+  border-radius: 9px;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary-2);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-2) 12%, transparent);
+}
+
+.secondary {
+  background: transparent;
+  border-color: var(--line);
+}
+.secondary.active {
+  background: color-mix(in srgb, var(--primary-2) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--primary-2) 38%, var(--line));
+}
+
+.page-tabs button.active { border-bottom-color: var(--primary-2); }
+.clinical-page,
+.clinical-card,
+.address-card,
+.treatment-card,
+.diagnosis-ai-panel,
+.clinical-card,
+.address-card {
+  border-left: 2px solid color-mix(in srgb, var(--primary-2) 55%, var(--line));
+}
+.chip,
+.timeline-item {
+  background: var(--surface-2);
+}
+.timeline-item { border-left-color: var(--primary-2); }
+.warning {
+  border-left-color: var(--primary-2);
+  background: color-mix(in srgb, var(--primary-2) 10%, var(--surface));
+}
+
+@media (max-width: 980px) {
+  .side {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding-right: 12px;
+    background: var(--surface);
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-intro h2 { font-size: clamp(44px, 11vw, 62px); }
+  .dashboard-metrics > div { border-right: 0; }
+  .dash-button { min-height: 164px; }
+}
+
+/* Voice transcription control */
+.voice-field { position: relative; }
+.voice-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  margin-top: 9px;
+}
+.voice-button {
+  position: relative;
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  min-height: 42px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--primary-2) 32%, var(--line));
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--primary-2) 8%, var(--surface));
+  color: var(--primary-2);
+}
+.voice-button:hover {
+  background: color-mix(in srgb, var(--primary-2) 15%, var(--surface));
+  border-color: var(--primary-2);
+}
+.voice-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary-2) 20%, transparent);
+  outline-offset: 2px;
+}
+.voice-pulse {
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--primary-2);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+.voice-button.is-listening {
+  background: var(--primary-2);
+  color: #fffaf3;
+}
+.voice-button.is-listening .voice-pulse {
+  animation: voice-pulse 1.5s ease-out infinite;
+}
+.voice-status {
+  color: var(--muted);
+  line-height: 1.4;
+}
+.voice-status[data-state="listening"] { color: var(--primary-2); }
+.voice-status[data-state="requesting"] { color: var(--primary-2); }
+.voice-status[data-state="error"] { color: var(--danger); }
+.voice-status[data-state="done"] { color: var(--sage); }
+.voice-button.is-requesting { cursor: wait; opacity: .72; }
+.voice-button.is-requesting .voice-pulse {
+  animation: voice-pulse 1.5s ease-out infinite;
+}
+
+@keyframes voice-pulse {
+  0% { opacity: .65; transform: scale(1); }
+  75%, 100% { opacity: 0; transform: scale(1.45); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voice-button.is-listening .voice-pulse { animation: none; opacity: .5; }
+}
+
+@media (max-width: 640px) {
+  .anamnesis-mode-selector { grid-template-columns: 1fr; }
+}
+
+/* Clinical typography scale — larger, calmer and more legible */
+:root {
+  --font-ui: Sora, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-editorial: Georgia, "Times New Roman", Garamond, serif;
+  --type-body: 21px;
+  --type-label: 18px;
+  --type-value: 21px;
+  --type-support: 17px;
+}
+
+body  {
+  font-size: var(--type-body);
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+label {
+  gap: 9px;
+  color: var(--text);
+  font-size: var(--type-label);
+  line-height: 1.45;
+  letter-spacing: .005em;
+}
+
+input,
+select,
+textarea {
+  min-height: 49px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: var(--type-value);
+  line-height: 1.65;
+  letter-spacing: .003em;
+}
+
+textarea {
+  padding-block: 13px;
+}
+
+/* Sem min-height: a altura e o conteudo, como em toda caixa do app (ver
+   bindAutoExpandingTextareas). O piso de 300px deixava a Historia clinica com
+   um palmo de branco embaixo de duas linhas escritas. */
+textarea.evolution-textarea {
+  overflow-y: hidden;
+  resize: none;
+  line-height: 1.32;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: color-mix(in srgb, var(--muted) 82%, transparent);
+  font-size: 18px;
+  font-weight: 400;
+  opacity: 1;
+}
+
+button,
+.page-tabs button,
+.nav-button {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.panel-title h2 {
+  font-size: clamp(39px, 3vw, 55px);
+  line-height: 1.12;
+}
+
+.panel-title p,
+.dashboard-intro p {
+  font-size: 20px;
+  line-height: 1.65;
+}
+
+.clinical-page-title h3 {
+  font-size: clamp(30px, 2.2vw, 39px);
+  line-height: 1.2;
+}
+
+.clinical-card h4,
+.address-card h3,
+.treatment-card h4,
+.diagnosis-group h4 {
+  font-size: 25px;
+  line-height: 1.3;
+}
+
+.antecedents-card h4 {
+  font-size: clamp(30px, 2.2vw, 39px);
+  line-height: 1.2;
+}
+
+.chip {
+  padding: 6px 12px 6px 9px;
+}
+
+.guide-items ul,
+.guide-items li,
+.timeline-item p,
+.medication-fact p {
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+/* O roteiro da anamnese e mais um bloco do prontuario, e nao territorio a
+   parte: o titulo do item le igual a qualquer rotulo de campo. O que separa o
+   roteiro do resto e o cartao que ja o cerca, e nao a cor da letra. */
+.guide-items span,
+.guide-group > strong {
+  font-size: var(--type-label);
+  font-weight: var(--w-strong);
+  line-height: 1.45;
+  letter-spacing: .005em;
+}
+
+.online-status,
+.panel-note,
+.voice-status,
+.medication-source-status,
+.diagnosis-empty,
+.warning,
+
+.eyebrow,
+.side-label {
+  font-size: 14px;
+}
+
+.medication-search-shell input {
+  font-size: 22px;
+}
+
+.nav-button {
+  min-height: 54px;
+}
+
+.side-foot strong {
+  font-size: 16px;
+}
+
+.side-foot small,
+
+@media (max-width: 640px) {
+  :root {
+    --type-body: 20px;
+    --type-label: 17px;
+    --type-value: 21px;
+  }
+
+  .panel-title h2 {
+    font-size: clamp(35px, 9vw, 47px);
+  }
+
+  .clinical-page-title h3 {
+    font-size: 29px;
+  }
+
+  .clinical-card h4,
+  .address-card h3,
+  .treatment-card h4,
+  .diagnosis-group h4 {
+    font-size: 23px;
+  }
+
+  .antecedents-card h4 {
+    font-size: 29px;
+  }
+}
+.refinement-section {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.refinement-section > h4 {
+  margin: 0;
+}
+
+/* Sem o titulo de pagina "Refinamento clinico" (redundante com o menu),
+   este vira o cabecalho principal da tela e ganha destaque de titulo. */
+.refinement-questions-section > h4 {
+  font-size: 23px;
+}
+
+.refinement-item {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--panel) 96%, var(--accent) 4%);
+}
+
+.refinement-item h4,
+.refinement-item p {
+  margin-top: 0;
+}
+
+.refinement-item .chips {
+  margin-top: 10px;
+}
+
+/* ============================================================
+   CAMADA DE IDENTIDADE — "Calma clínica"
+   Azul calmo + bege acolhedor · Outfit como fonte única
+   Esta é a última camada do arquivo: prevalece sobre as anteriores.
+   ============================================================ */
+
+/* --- Tipografia local: Outfit, fonte única (offline, sem requisição externa) --- */
+@font-face {
+  font-family: Outfit;
+  src: url("../../fonts/Outfit-Variable-latin.woff2") format("woff2");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: Outfit;
+  src: url("../../fonts/Outfit-Variable-latin-ext.woff2") format("woff2");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* --- Tema escuro (padrão): azul profundo como matéria, bege como tinta --- */
+:root {
+  color-scheme: dark;
+
+  --azul-calmo: #5B7C99;
+  --azul-profundo: #33505E;
+  --bege: #F3EAE0;
+  --terracota: #C17B5B;
+  --verde: #A3B18A;
+  --amarelo: #E3B23C;
+
+  --bg: #1C2B33;
+  --surface: #24363F;
+  --surface-2: #2C414B;
+  --line: rgba(243, 234, 224, .13);
+  --text: #F3EAE0;
+  --muted: #A7B6BF;
+
+  --primary: #33505E;
+  --primary-2: #8FADC6;
+  --on-primary: #16222A;
+  --sage: #A3B18A;
+  --amber: #E3B23C;
+  --terracota-ink: #D2937A;
+  --danger: #C86F5E;
+  --on-danger: #16222A;
+
+  /* variáveis que o CSS já referenciava sem nunca terem sido definidas */
+  --accent: #8FADC6;
+  --accent-soft: #2C414B;
+  --panel: #24363F;
+
+  --shadow: 0 18px 44px rgba(10, 20, 26, .34);
+  --radius: 12px;
+
+  /* Fonte única: a hierarquia vem do tamanho, não da família */
+  --font-ui: Outfit, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-editorial: Outfit, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* escala tipográfica — razão ~1.22, proporções harmônicas */
+  --type-micro: 14px;
+  --type-support: 17px;
+  --type-label: 17px;
+  --type-body: 21px;
+  --type-value: 21px;
+
+  /* pesos: leve só em corpo grande; dado clínico nunca abaixo de 400 */
+  --w-display: 250;
+  --w-title: 350;
+  --w-heading: 450;
+  --w-body: 400;
+  --w-strong: 550;
+  --w-caps: 600;
+}
+
+/* --- Tema claro: bege acolhedor, tinta azul profunda --- */
+body.light {
+  color-scheme: light;
+
+  --bg: #F3EAE0;
+  --surface: #FAF6F0;
+  --surface-2: #EBE0D4;
+  --line: rgba(51, 80, 94, .16);
+  --text: #2A4553;
+  --muted: #4E6779;
+
+  --primary: #5B7C99;
+  --primary-2: #33505E;
+  --on-primary: #F7F1E9;
+  --sage: #5E6E45;
+  --amber: #8A6716;
+  --terracota-ink: #9A5636;
+  --danger: #9B4436;
+  --on-danger: #FFFFFF;
+
+  --accent: #33505E;
+  --accent-soft: #EBE0D4;
+  --panel: #FAF6F0;
+
+  --shadow: 0 16px 40px rgba(51, 80, 94, .10);
+}
+
+body {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  letter-spacing: .002em;
+
+  /* O controle assinalado usa a terracota: e a unica cor quente da paleta, e
+     contra a interface azul-acinzentada o que esta marcado le-se sem procurar.
+     Declarada aqui e em nenhum outro lugar -- a propriedade e herdada, entao
+     uma linha cobre todo radio e toda caixa do programa. Sem ela, o controle
+     cai no acento do sistema operacional, que nao e deste tema.
+
+     No `body`, e nao no `:root`: o que se herda e o valor ja computado, nao a
+     variavel. No `:root` ela resolveria uma vez com a terracota do tema escuro
+     e desceria assim tambem para o claro, que redefine `--terracota-ink` em
+     `body.light`. Aqui cada tema resolve a sua. */
+  accent-color: var(--terracota-ink);
+}
+
+button, input, select, textarea { font-family: var(--font-ui); }
+
+/* Uma família só: títulos se distinguem por tamanho e tracking, não por serifa.
+   Quanto maior o corpo, mais leve o peso e mais fechado o tracking. */
+.brand h1,
+.dashboard-intro h2,
+.today strong,
+.quick-heading span,
+.panel-title h2,
+.clinical-page-title h3,
+.clinical-card h4,
+.address-card h3,
+.treatment-card h4,
+.diagnosis-group h4,
+.antecedents-card h4,
+.dashboard-metrics > div > strong,
+.dash-button .dash-copy strong {
+  font-family: var(--font-editorial);
+  font-weight: var(--w-heading);
+  letter-spacing: -.015em;
+}
+
+/* Corpo grande — o peso leve só vive aqui */
+.dashboard-intro h2,
+.panel-title h2,
+.dashboard-metrics > div > strong {
+  font-weight: var(--w-display);
+  letter-spacing: -.028em;
+}
+
+.clinical-page-title h3,
+.antecedents-card h4 {
+  font-weight: var(--w-title);
+  letter-spacing: -.022em;
+}
+
+/* OPCAO ASSINALAVEL — chip, segmentado, multi-escolha e hipotese sao a mesma
+   coisa para quem opera: um alvo que se marca. Entao tem uma tipografia so, e
+   ela mora aqui e em nenhum outro lugar.
+
+   Existiu porque nao existia: a mesma tipografia era declarada em quatro regras
+   diferentes, e a ultima delas listava quatro seletores e esquecia dois. Chip e
+   hipotese ficavam em peso 400; segmentado e multi-escolha, em 550 -- mesmo
+   tamanho, pesos diferentes, sem que ninguem tivesse decidido isso. */
+.chip,
+.diagnosis-option span {
+  font-size: 18px;
+  font-weight: var(--w-body);
+  line-height: 1.5;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* O chip e rotulo de uma ou duas palavras, e numa tela cheia deles o corpo de
+   18px alargava cada caixa ate empurrar a fileira para baixo. 16px desde
+   14/09/2026; a hipotese diagnostica, que e frase com codigo, fica nos 18px. */
+.chip {
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+/* Dado clínico nunca fica leve, e sempre com numeral tabular */
+input,
+select,
+textarea,
+.medication-fact p,
+.timeline-item p {
+  font-weight: var(--w-body);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+label { font-weight: var(--w-strong); }
+
+/* Últimos resquícios de serifa em camadas antigas */
+.medication-reference-head h3,
+.medication-reference-title h3 {
+  font-family: var(--font-editorial);
+  font-weight: var(--w-display);
+  letter-spacing: -.03em;
+}
+.medication-empty-state > span { font-family: var(--font-editorial); font-weight: var(--w-display); }
+.side-foot > span { font: var(--w-caps) 14px/1 var(--font-editorial); letter-spacing: .08em; }
+
+/* --- Botões --- */
+/* Principal sobrio desde 14/09/2026: o bloco azul-profundo solido chamava mais
+   atencao que o proprio formulario. Fica a tinta azul do tema num fundo so
+   levemente tingido -- ainda se distingue do botao comum pela cor e pela
+   borda, sem gritar. Mesma formula nos dois temas, cada um com a sua tinta. */
+.primary {
+  background: color-mix(in srgb, var(--primary-2) 14%, var(--surface));
+  border-color: color-mix(in srgb, var(--primary-2) 45%, var(--line));
+  /* A tinta pura dava 4,1:1 no tema escuro, abaixo dos 4,5 da AA. Puxada para
+     a cor de texto do tema: clareia no escuro, escurece no claro. */
+  color: color-mix(in srgb, var(--primary-2) 65%, var(--text));
+  font-weight: var(--w-strong);
+  box-shadow: none;
+}
+.primary:hover { background: color-mix(in srgb, var(--primary-2) 22%, var(--surface)); }
+.danger { background: var(--danger); border-color: var(--danger); color: var(--on-danger); }
+.side-foot > span { background: var(--primary-2); color: var(--on-primary); }
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+
+.container { width: min(1550px, 100%); max-width: min(1550px, 100%); padding: clamp(26px, 4vw, 56px) clamp(20px, 4vw, 60px); }
+
+/* Cabeçalho ------------------------------------------------ */
+.dashboard-intro {
+  align-items: flex-end;
+  gap: clamp(24px, 5vw, 64px);
+  padding: clamp(6px, 1.5vw, 16px) 0 clamp(26px, 3vw, 36px);
+  border-bottom: 1px solid var(--line);
+}
+
+.intro-copy { min-width: 0; }
+
+.eyebrow {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--primary-2);
+  font-size: var(--type-micro);
+  font-weight: var(--w-caps);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.dashboard-intro h2 {
+  margin: 0;
+  max-width: 16ch;
+  font-size: clamp(44px, 4.8vw, 73px);
+  font-weight: var(--w-display);
+  line-height: 1.05;
+  letter-spacing: -.03em;
+}
+
+.dashboard-intro p {
+  margin: 16px 0 0;
+  max-width: 46ch;
+  color: var(--muted);
+  font-size: var(--type-body);
+  line-height: 1.6;
+}
+
+/* Intro do dashboard: "PRONTUÁRIO PSIQUIÁTRICO" dobrado (+100%) e aproximado da chamada */
+.dashboard-intro .eyebrow {
+  font-size: 28px;      /* dobra o --type-micro (14px → 28px) */
+  margin-top: 8px;      /* baixa um pouco */
+  margin-bottom: 4px;   /* aproxima da frase abaixo */
+}
+.dashboard-intro p {
+  margin-top: 2px;      /* sobe um pouco para aproximar */
+}
+
+.today { text-align: right; flex: 0 0 auto; padding-bottom: 4px; }
+.today span {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .2em;
+}
+.today strong {
+  font-size: 25px;
+  font-weight: var(--w-heading);
+  line-height: 1.2;
+  letter-spacing: -.012em;
+  text-transform: none;
+}
+
+/* Métricas -------------------------------------------------- */
+.dashboard-metrics {
+  grid-template-columns: 1fr 1fr 1.5fr;
+  gap: 0;
+  margin: clamp(26px, 3vw, 34px) 0 clamp(40px, 5vw, 56px);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.dashboard-metrics > div {
+  min-height: 104px;
+  padding: 22px clamp(18px, 2vw, 26px);
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+.dashboard-metrics > div:last-child { border-right: 0; }
+
+.dashboard-metrics > div > span:first-child {
+  color: var(--muted);
+  font-size: var(--type-support);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: .01em;
+}
+
+.dashboard-metrics > div > strong {
+  font-size: 52px;
+  font-weight: var(--w-display);
+  line-height: 1;
+  letter-spacing: -.03em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.dashboard-metrics .privacy-note {
+  justify-content: flex-start;
+  gap: 14px;
+  color: var(--primary-2);
+  background: color-mix(in srgb, var(--verde) 9%, var(--surface));
+}
+.privacy-note > svg { width: 20px; height: 20px; flex: 0 0 auto; color: var(--sage); }
+.privacy-note span { display: grid; gap: 5px; }
+.privacy-note strong { color: var(--text); font-size: var(--type-support); font-weight: var(--w-strong); }
+.privacy-note small { color: var(--muted); font-size: 16px; line-height: 1.45; }
+
+/* Acesso rápido --------------------------------------------- */
+.quick-heading { align-items: baseline; margin-bottom: 18px; }
+.quick-heading span {
+  font-family: var(--font-editorial);
+  font-size: 30px;
+  font-weight: var(--w-heading);
+  line-height: 1.25;
+  letter-spacing: -.018em;
+}
+.quick-heading small { color: var(--muted); font-size: var(--type-support); }
+
+.dashboard-actions { gap: clamp(12px, 1.4vw, 18px); }
+
+.dash-button {
+  position: relative;
+  min-height: 212px;
+  padding: 24px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: none;
+  transition: border-color .25s ease, background .25s ease, transform .25s ease;
+}
+.dash-button::after { display: none; }
+.dash-button:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--primary-2) 46%, var(--line));
+  background: color-mix(in srgb, var(--surface) 92%, var(--primary-2));
+  box-shadow: none;
+}
+
+.card-number {
+  top: 22px;
+  right: 22px;
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  font-weight: 600;
+  letter-spacing: .16em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* `.dash-button span` forçava display:block e desalinhava o ícone dentro do círculo */
+.dash-button .dash-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--primary-2) 26%, var(--line));
+  background: color-mix(in srgb, var(--primary-2) 10%, transparent);
+  color: var(--primary-2);
+}
+.dash-button .dash-icon svg { width: 21px; height: 21px; display: block; }
+
+.dash-copy { margin-top: auto; }
+.dash-button .dash-copy strong {
+  margin: 0 0 9px;
+  font-size: 26px;
+  font-weight: var(--w-heading);
+  line-height: 1.25;
+  letter-spacing: -.018em;
+}
+
+.dash-button .card-number,
+.session-exit span,
+.quick-heading small { font-weight: 500; }
+
+.card-arrow {
+  right: 22px;
+  bottom: 24px;
+  color: var(--primary-2) !important;
+  font-size: 22px !important;
+  opacity: .55;
+  transition: opacity .25s ease, transform .25s ease;
+}
+.dash-button:hover .card-arrow { opacity: 1; transform: translateX(3px); }
+
+/* Cada card recebe um sinal cromático discreto, sem quebrar a calma */
+.dash-button:nth-child(1) .dash-icon { color: var(--primary-2); border-color: color-mix(in srgb, var(--primary-2) 30%, var(--line)); background: color-mix(in srgb, var(--primary-2) 10%, transparent); }
+.dash-button:nth-child(2) .dash-icon { color: var(--sage); border-color: color-mix(in srgb, var(--verde) 34%, var(--line)); background: color-mix(in srgb, var(--verde) 12%, transparent); }
+.dash-button:nth-child(3) .dash-icon { color: var(--terracota-ink); border-color: color-mix(in srgb, var(--terracota) 34%, var(--line)); background: color-mix(in srgb, var(--terracota) 11%, transparent); }
+.dash-button:nth-child(4) .dash-icon { color: var(--amber); border-color: color-mix(in srgb, var(--amarelo) 28%, var(--line)); background: color-mix(in srgb, var(--amarelo) 8%, transparent); }
+
+/* Encerrar sessão -------------------------------------------- */
+.session-exit {
+  margin: clamp(26px, 3vw, 34px) 0 0 auto;
+  min-height: 40px;
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: var(--type-support);
+  font-weight: 500;
+  transition: color .2s ease;
+}
+.session-exit:hover { color: var(--danger); transform: none; }
+.session-exit svg { width: 15px; height: 15px; }
+
+/* Topbar ------------------------------------------------------ */
+.brand-mark {
+  border-color: color-mix(in srgb, var(--primary-2) 42%, var(--line));
+  color: var(--primary-2);
+  font-family: var(--font-editorial);
+  font-weight: var(--w-caps);
+  letter-spacing: .1em;
+}
+.brand h1 { font-size: 27px; font-weight: var(--w-heading); letter-spacing: -.018em; }
+.secure-status { color: var(--muted); font-size: 16px; }
+.secure-status i { background: var(--sage); box-shadow: 0 0 0 4px color-mix(in srgb, var(--verde) 16%, transparent); }
+.icon-button, .compact-action { color: var(--primary-2); }
+
+/* Responsivo -------------------------------------------------- */
+@media (max-width: 980px) {
+  .dashboard-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dash-button { min-height: 190px; }
+}
+
+@media (max-width: 640px) {
+  .dashboard-intro { flex-direction: column; align-items: flex-start; gap: 0; }
+  .dashboard-intro h2 { max-width: none; font-size: clamp(39px, 9vw, 52px); }
+  .dashboard-intro p { font-size: 20px; }
+  .dashboard-metrics { grid-template-columns: 1fr 1fr; }
+  .dashboard-metrics > div { min-height: 92px; padding: 18px; }
+  .dashboard-metrics > div:nth-child(2) { border-right: 0; }
+  .dashboard-metrics > div > strong { font-size: 39px; }
+  .dashboard-metrics .privacy-note { grid-column: 1 / -1; border-top: 1px solid var(--line); }
+  .dashboard-actions { grid-template-columns: 1fr; }
+  .dash-button { min-height: 0; padding: 20px; }
+}
+
+/* ============================================================
+   FORMULÁRIO "NOVO PACIENTE"
+   ============================================================ */
+
+/* Caixas com altura uniforme: igual à caixa natural do select "Sexo"
+   (54px), sem o esticamento que o grid aplica quando um rótulo quebra de
+   linha. align-items: start no .grid impede que uma linha com rótulo maior
+   estique os campos vizinhos da mesma linha. */
+#patient-form .grid { align-items: start; }
+#patient-form label { align-items: start; }
+
+/* Reserva altura fixa para o texto do rotulo (2 linhas) em vez de "auto".
+   Sem isso, um rotulo que quebra em 2 linhas empurra a propria caixa mais
+   para baixo que as caixas vizinhas de rotulo curto, desalinhando a linha. */
+#patient-form label {
+  grid-template-rows: minmax(50px, auto) auto;
+}
+
+#patient-form input,
+#patient-form select {
+  height: 54px;
+  box-sizing: border-box;
+}
+
+/* Remove a aparencia nativa do <select> (Safari/Chrome reservam altura extra
+   para o proprio estilo do sistema, o que faz o select nunca bater 1:1 com o
+   input mesmo com a mesma "height"). Com appearance:none o select respeita a
+   altura definida acima e fica identico aos campos de texto. Seta customizada
+   substitui a seta nativa removida. */
+#patient-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%239db0ae' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='5 8 10 13 15 8'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 34px;
+}
+
+/* Campos de multipla escolha (select) ficam com a largura proxima do texto
+   mais longo entre as opcoes, em vez de esticar para a largura toda da
+   coluna do grid. */
+#patient-form select {
+  width: auto;
+  min-width: 160px;
+  max-width: 100%;
+}
+
+/* Fone/WhatsApp e curto; no bloco de endereco quem manda na largura e o
+   .address-grid (span de colunas), sem max-width por campo. O atalho do
+   WhatsApp fica dentro da caixa, a direita, e o texto nao passa por baixo. */
+#patient-form .phone-input {
+  position: relative;
+  display: block;
+  max-width: 260px;
+}
+
+#patient-form .phone-input input {
+  padding-right: 48px;
+}
+
+#patient-form .whatsapp-link {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #1a9e55;
+}
+
+/* O display:grid acima venceria o atributo hidden: numero incompleto nao
+   mostra atalho. */
+#patient-form .whatsapp-link[hidden] {
+  display: none;
+}
+
+#patient-form .whatsapp-link:hover,
+#patient-form .whatsapp-link:focus-visible {
+  background: color-mix(in srgb, #25d366 16%, transparent);
+}
+
+/* "Nome e contato de emergencia" guarda dois dados no mesmo campo, entao
+   ocupa duas colunas do grid (ultima linha, sobra livre a direita). */
+#patient-form .patient-grid > label:has(input[name="emergencia"]) {
+  grid-column: span 2;
+}
+
+/* ============================================================
+   ACESSIBILIDADE
+   ============================================================ */
+
+/* Atalho de teclado para pular a topbar — primeiro Tab da página. */
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  padding: 11px 18px;
+  border-radius: 0 0 10px 10px;
+  background: var(--primary-2);
+  color: var(--on-primary);
+  font-size: 18px;
+  font-weight: var(--w-strong);
+  text-decoration: none;
+  transition: top .18s ease;
+}
+.skip-link:focus { top: 0; }
+
+/* O tema anterior não desenhava foco em botões: navegação por teclado ficava cega. */
+:where(a, button, [role="button"], summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary-2);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary-2);
+  outline-offset: 1px;
+}
+
+/* Alvo de toque mínimo em chips e opções (WCAG 2.5.8). 40px desde 14/09/2026,
+   a pedido, para as caixas ocuparem menos: acima dos 24px da 2.5.8 AA, o mesmo
+   piso que o diagnostico compacto ja usava. */
+.chip,
+.diagnosis-option { min-height: 40px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .dash-button:hover { transform: none; }
+  button:hover { transform: none; }
+}
+
+/* Respeita quem pediu mais contraste no sistema. */
+@media (prefers-contrast: more) {
+  :root { --line: rgba(243, 234, 224, .3); --muted: #C4D0D7; }
+  body.light { --line: rgba(51, 80, 94, .34); --muted: #3C5464; }
+}
+
+/* ============================================================
+   TELA DE LOGIN
+   .auth-shell / .auth-card nunca tiveram regra: a primeira tela do
+   sistema renderizava sem layout, esticada na largura toda.
+   ============================================================ */
+
+.auth-shell  {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 5vw, 48px);
+  background: var(--bg);
+}
+
+.auth-card {
+  width: min(420px, 100%);
+  padding: clamp(30px, 4vw, 44px);
+  display: grid;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.auth-card .brand-mark {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 22px;
+  font-size: 17px;
+}
+
+.auth-card h1 {
+  margin: 0;
+  font-family: var(--font-editorial);
+  font-size: clamp(33px, 4vw, 39px);
+  font-weight: var(--w-title);
+  line-height: 1.2;
+  letter-spacing: -.025em;
+}
+
+.auth-card > p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+#auth-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+  text-align: left;
+}
+
+#auth-form .primary {
+  margin-top: 6px;
+  min-height: 50px;
+}
+
+#auth-form .warning {
+  margin: 0;
+  border-left: 3px solid var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+  color: var(--text);
+  font-size: 17px;
+}
+
+@media (max-width: 420px) {
+  .auth-card { border: 0; background: transparent; box-shadow: none; padding: 0; }
+}
+
+/* Sincronizacao pendente: ocupa o lugar do selo "Ambiente clinico seguro",
+   porque nesse momento a afirmacao que importa e outra. */
+/* O chip "Outro" e a anotacao dele andam juntos. A anotacao so aparece com o
+   chip marcado; onde :has() nao existir, aparece sempre — pior caso aceitavel,
+   porque o campo continua funcionando. */
+.chip-other {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chip-other .chip-note {
+  min-width: 180px;
+  max-width: 100%;
+  min-height: 36px;
+  padding: 0 10px;
+}
+
+@supports selector(:has(*)) {
+  /* Radio entrou junto em 02/09/2026: o "Outro" das escalas de evolucao e
+     escolha unica, e o seletor so olhava caixa de marcar. */
+  .chip-other:not(:has(input:checked)) .chip-note { display: none; }
+}
+
+.sync-status.sync-failed,
+.sync-status.storage-failed {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  color: #7a2e00;
+  background: #ffe8d6;
+  border: 1px solid #f0b184;
+}
+
+.top-actions .sync-status {
+  max-width: min(45vw, 440px);
+  font-size: 0.82rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .top-actions .sync-status {
+    max-width: min(52vw, 260px);
+    font-size: 0.75rem;
+  }
+}
+
+/* Falha de gravacao local e mais grave que falha de sincronizacao: ali o
+   registro existe no aparelho, aqui ele nao existe em lugar nenhum. Por isso
+   vermelho, e nao o laranja do aviso de sincronizacao. */
+.sync-status.storage-failed {
+  color: #7f1d1d;
+  background: #fee2e2;
+  border: 1px solid #ef8f8f;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sync-status.sync-failed { color: #ffd9bf; background: #4a2412; border-color: #8a4a22; }
+  .sync-status.storage-failed { color: #ffd4d4; background: #4a1212; border-color: #8a2222; }
+}
+
+/* Nivel de cuidado: primeiro bloco da Conduta, largura inteira. Fica fora do
+   treatment-card-grid de proposito -- e uma decisao unica, e nao mais um cartao
+   competindo por atencao com medicamento e exames. */
+.care-card { margin-bottom: 14px; }
+.care-levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; margin: 10px 0; }
+.care-option { align-items: flex-start; }
+.care-option small { display: block; opacity: 0.75; line-height: 1.45; margin-top: 2px; }
+/* A sugestao da IA fica visivel sem vir marcada: quem assinala e o medico. */
+.care-suggested { outline: 1px solid currentColor; outline-offset: 2px; border-radius: 6px; }
+.care-tag { font-style: normal; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.7; }
+.care-warning { margin: 8px 0 0; font-weight: 600; line-height: 1.5; }
+
+/* A partir de Comorbidades a tela deixa de ser decisao principal e vira
+   qualificacao do que ja foi decidido: comorbidade, agravante, etiologia e as
+   saidas de "nenhum transtorno". Por decisao dele (31/08/2026) essas caixas
+   ficam mais baixas, para o bloco todo caber sem rolagem depois das hipoteses.
+   O alvo de toque cai de 48px para 40px -- acima do minimo de 24px da WCAG
+   2.5.8 AA, que e o que este projeto se compromete a cumprir. */
+.diagnosis-group-compact {
+  margin-top: 10px;
+  padding: 12px 14px;
+}
+.diagnosis-group-compact h4 { font-size: 19px; }
+.diagnosis-group-compact .diagnosis-options { margin-top: 9px; gap: 6px; }
+.diagnosis-group-compact .diagnosis-option {
+  min-height: 34px;
+  padding: 6px 10px;
+}
+/* 15px contra os 18px do resto da tela. Estes rotulos sao longos -- a hipotese
+   inteira mais CID-10 mais DSM-5-TR na mesma linha -- e a 18px cada opcao
+   ocupava tres linhas. Nao desce mais: abaixo disso o codigo, que e o que o
+   medico confere antes de assinalar, fica dificil de ler. */
+.diagnosis-group-compact .diagnosis-option span { font-size: 15px; line-height: 1.4; }
+.diagnosis-group-compact .diagnosis-option input { margin-top: 0; }
+.diagnosis-group-compact .diagnosis-empty { padding: 10px; font-size: 14px; }
+
+/* A caixa de busca do medicamento e uma moldura so: a borda e o anel de foco
+   ficam na shell, e o input dentro dela nao tem borda propria. Faltava desligar
+   o outline generico de input:focus-visible, que desenhava um segundo retangulo
+   por dentro do primeiro -- dupla margem na mesma caixa. Sem prejuizo de
+   acessibilidade: quem indica o foco e a shell, que troca de cor e ganha anel
+   de 3px em :focus-within. */
+.medication-search-shell input:focus,
+.medication-search-shell input:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border: 0;
+}
+
+/* As duas portas do apendice. Mesma forma do seletor de registro da anamnese --
+   duas metades, a ativa destacada -- porque e a mesma pergunta na tela: por onde
+   voce quer entrar. */
+.appendix-search-selector {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.appendix-search-selector button {
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.appendix-search-selector button.active {
+  border-color: var(--primary-2);
+  background: color-mix(in srgb, var(--primary-2) 13%, var(--surface));
+  color: var(--text);
+  font-weight: 700;
+}
+
+.appendix-symptom-results { margin-top: 18px; }
+.appendix-symptom-results ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+
+.appendix-symptom-results li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.appendix-symptom-results li span { font-size: 15px; line-height: 1.45; }
+.appendix-symptom-results li button { white-space: nowrap; }
+
+/* O botao empilha embaixo no telefone: lado a lado, sobra menos de metade da
+   largura para a conduta, que e a parte que se le. */
+@media (max-width: 640px) {
+  .appendix-symptom-results li { grid-template-columns: minmax(0, 1fr); }
+  .appendix-symptom-results li button { justify-self: start; }
+}
+
+/* Os criterios da hipotese nosologica. Dobrados por padrao: abertos, cada
+   hipotese ocuparia meia tela antes de dar para comparar uma com a outra, e
+   comparar e o que se faz nesta tela. */
+.diagnosis-option-block { display: grid; gap: 6px; }
+
+.diagnosis-criteria {
+  margin: 0 0 4px 34px;
+  border-left: 2px solid var(--line);
+  padding-left: 12px;
+}
+
+.diagnosis-criteria summary {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--muted);
+  padding: 4px 0;
+}
+
+.diagnosis-criteria ul { list-style: none; margin: 6px 0 8px; padding: 0; display: grid; gap: 8px; }
+.diagnosis-criteria li { display: grid; gap: 2px; font-size: 14px; line-height: 1.45; }
+.diagnosis-criteria strong { font-weight: 600; }
+.diagnosis-criteria .criterion-evidence { color: var(--muted); }
+
+.diagnosis-criteria .criterion-status {
+  justify-self: start;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+
+/* Faixa de sustentacao: discreta, ao lado do que ele le primeiro. Nao usa cor
+   de alerta nem de sucesso -- e estimativa, e a cor diria que e veredito. */
+.diagnosis-range { margin: 0 0 0 34px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.diagnosis-range small { font-size: 12px; margin-left: 6px; }
+.diagnosis-range-note { margin: 0 0 6px; font-size: 13px; color: var(--muted); }
+
+/* Tres estados, tres leituras. O "nao avaliavel" e o que mais importa destacar:
+   ele nao e falha da resposta, e a lista do que perguntar no retorno. */
+.criterion-preenchido .criterion-status { color: var(--primary-2); }
+.criterion-nao-preenchido .criterion-status { color: var(--muted); }
+.criterion-nao-avaliavel .criterion-status { color: #a8641f; }
+
+/* O bloco do caso na avaliacao de evolucao: nasce do atendimento anterior, e
+   por isso vem depois da espinha fixa e visualmente separado dela. */
+.return-case-blocks { display: grid; gap: 16px; margin-top: 18px; }
+
+.return-case-section {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 14px 16px;
+}
+
+.return-case-section h4 { margin: 0; }
+.field-hint {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: var(--type-micro);
+  line-height: 1.45;
+}
+
+.return-case-section .field-hint { margin: 4px 0 12px; }
+.return-case-item { display: grid; gap: 6px; padding: 8px 0; }
+.return-case-item + .return-case-item { border-top: 1px solid var(--line); }
+.return-case-item strong { font-size: 15px; line-height: 1.45; font-weight: 600; }
+
+/* A ficha telegrafica. Classe e mecanismo em linha inteira -- e a frase que
+   situa o farmaco; o resto em grade, que e como se consulta com a receita na
+   mao. */
+.medication-briefing { margin-top: 4px; }
+
+.medication-briefing-class {
+  margin: 0 0 14px;
+  font-size: 18px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.medication-briefing dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.medication-briefing dl > div {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  background: var(--surface);
+}
+
+.medication-briefing dt {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.medication-briefing dd { margin: 3px 0 0; font-size: 16px; line-height: 1.4; }
+
+/* A gestacao e a unica resposta da anamnese que pode suspender uma prescricao,
+   e por isso o desdobramento dela fica visivelmente preso a pergunta: recuado,
+   com um fio a esquerda, para que nao se leia como campo solto. */
+.pregnancy-block {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.pregnancy-followup {
+  display: grid;
+  gap: 6px;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 2px solid var(--primary-2);
+}
+
+.pregnancy-age {
+  margin: 0;
+  color: var(--text);
+}
+
+/* Escalas (10/09/2026). O cartao de cada escala segue o bloco do caso na
+   Evolucao: superficie simples, borda fina. O que chama a atencao e so o que
+   precisa -- o resultado, pela cor do nivel, e o alerta de item, em vermelho. */
+.scale-picker { margin-bottom: 16px; }
+.scale-catalogue { display: grid; gap: 4px; }
+.scale-domain { display: grid; grid-template-columns: minmax(150px, 190px) 1fr; gap: 10px; align-items: center; }
+.scale-domain > span { color: var(--muted); font-size: 14px; }
+.scale-domain .chips { margin: 4px 0; }
+
+.scale-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+.scale-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.scale-card-head h4 { margin: 0; font-size: 19px; }
+.scale-card-head h4 span { font-weight: 400; color: var(--muted); font-size: 15px; margin-left: 6px; }
+.scale-meta { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.scale-instruction { margin: 12px 0 4px; line-height: 1.5; }
+
+.scale-items { margin: 8px 0 0; padding-left: 22px; display: grid; gap: 4px; }
+.scale-item { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.scale-item p { margin: 0 0 6px; line-height: 1.5; }
+.scale-item .chips { margin: 4px 0 2px; }
+.scale-item-unscored p { color: var(--muted); }
+.scale-condition { display: inline-block; margin-left: 6px; color: var(--muted); font-size: 13px; font-style: italic; }
+
+.scale-result { margin-top: 14px; display: grid; gap: 8px; }
+.scale-score {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--sage);
+  background: var(--surface-2);
+}
+.scale-score strong { font-size: 28px; font-variant-numeric: tabular-nums; }
+.scale-score span { color: var(--muted); font-variant-numeric: tabular-nums; }
+.scale-score b { font-size: 17px; }
+.scale-score.nivel-1 { border-left-color: var(--primary-2); }
+.scale-score.nivel-2 { border-left-color: var(--amber); }
+.scale-score.nivel-3 { border-left-color: var(--danger); }
+.scale-band-note, .scale-subscales, .scale-change, .scale-pending { margin: 0; line-height: 1.5; }
+.scale-pending, .scale-change { color: var(--muted); }
+.scale-alert {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--danger) 45%, var(--line));
+  border-left: 4px solid var(--danger);
+  background: color-mix(in srgb, var(--danger) 9%, var(--surface));
+  line-height: 1.5;
+  font-weight: 600;
+}
+.scale-alert-conflict { font-weight: 400; }
+.scale-reference { margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+@media (max-width: 720px) {
+  .scale-domain { grid-template-columns: 1fr; gap: 0; }
+  .scale-card-head { flex-direction: column; }
+}
+
+/* Risco agudo das escalas dentro do Nivel de cuidado e do Ajuste de conduta:
+   o mesmo desenho do alerta da escala, para ser reconhecido como o mesmo aviso. */
+.care-card .scale-alert,
+.care-scale-risk { margin: 10px 0; }
+
+/* Escalas sugeridas para o caso: destaque no chip, motivo por extenso acima. */
+.scale-suggestions { margin: 4px 0 12px; padding: 10px 12px; border-radius: var(--radius); border: 1px dashed color-mix(in srgb, var(--primary-2) 55%, var(--line)); }
+.scale-suggestions b { display: block; margin-bottom: 4px; font-size: 14px; }
+.scale-suggestions ul { margin: 0; padding-left: 18px; display: grid; gap: 2px; color: var(--muted); line-height: 1.45; }
+.scale-suggestions li strong { color: var(--text); }
+.chip.scale-suggested { border-style: dashed; border-color: var(--primary-2); }
+
+/* Evolucao das escalas no prontuario. */
+.scale-trends { margin: 4px 0 18px; }
+.scale-trends h3 { margin: 0 0 10px; }
+.scale-trend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.scale-trend { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 12px 14px; }
+.scale-trend h4 { margin: 0 0 6px; font-size: 16px; }
+.scale-trend h4 span { font-weight: 400; color: var(--muted); font-variant-numeric: tabular-nums; margin-left: 6px; }
+.scale-trend-chart { width: 100%; height: auto; display: block; overflow: visible; }
+.scale-trend-chart .trend-axis { stroke: var(--line); stroke-width: 1; }
+.scale-trend-chart .trend-cut { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 4; }
+.scale-trend-chart .trend-line { fill: none; stroke: var(--primary-2); stroke-width: 2; stroke-linejoin: round; }
+.scale-trend-chart .trend-dot { fill: var(--surface); stroke: var(--primary-2); stroke-width: 2; }
+.scale-trend-chart .trend-dot-last { fill: var(--primary-2); }
+.scale-trend-chart .trend-value { fill: var(--text); font-size: 11px; font-variant-numeric: tabular-nums; }
+.scale-trend-chart .trend-tick { fill: var(--muted); font-size: 10px; font-variant-numeric: tabular-nums; }
+.scale-trend-caption { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.scale-trend-list { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 4px; }
+.scale-trend-list span { display: inline-block; min-width: 48px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Monitorizacao dos medicamentos assinalados, no cartao de Exames. */
+.monitoring-block { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.monitoring-title { margin: 0 0 6px; font-weight: 600; }
+.monitoring-block ul { margin: 0 0 10px; padding-left: 18px; display: grid; gap: 6px; line-height: 1.5; }
+.monitoring-exams { color: var(--muted); }
+
+/* Histórico farmacológico no painel da IA do Tratamento: os ensaios já
+   encerrados, com o mesmo veredito que foi ao prompt. Verde para o que se deve
+   repetir, vermelho para o que não se deve, e neutro para o que nunca chegou a
+   ser testado -- que não é meio-termo entre os dois, é pergunta em aberto. */
+.trial-history { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.trial-history-title { margin: 0 0 6px; font-weight: 600; }
+.trial-history ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; line-height: 1.5; }
+.trial-verdict { margin-left: 6px; padding: 1px 7px; border-radius: 999px; font-size: 11px; white-space: nowrap; }
+.trial-neutro { background: color-mix(in srgb, var(--muted) 18%, var(--surface)); color: var(--text); }
+.trial-bom { background: color-mix(in srgb, var(--sage) 26%, var(--surface)); color: var(--text); }
+.trial-ruim { background: color-mix(in srgb, var(--danger) 18%, var(--surface)); color: var(--text); }
+.trial-evidence { display: block; color: var(--muted); font-size: 12px; }
+
+/* Documentos (10/09/2026): tipo e campos em cima, texto editavel embaixo. */
+.document-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 14px; margin: 10px 0; }
+.document-recommendations { grid-column: 1 / -1; }
+.document-consent { margin: 4px 0 8px; }
+.document-editor textarea { width: 100%; line-height: 1.55; }
+.document-editor .actions { margin-top: 10px; }
+.documents-issued ul { margin: 0 0 6px; padding: 0; list-style: none; display: grid; gap: 6px; }
+.documents-issued li { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.doctor-card summary { cursor: pointer; }
+.doctor-card[open] summary { margin-bottom: 8px; }
+.document-picker, .document-editor, .documents-issued, .doctor-card { margin-bottom: 14px; }
+
+/* Leva 4 (14/09/2026): caso com mais de dois atendimentos vira grade, na
+   ordem em que aconteceram; e o resumo do caso no topo do prontuario. */
+.timeline-case.chain { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); align-items: start; }
+.case-summary { margin: 4px 0 18px; }
+.case-summary h3 { margin: 0 0 10px; }
+.case-summary h4 { margin: 14px 0 8px; }
+.case-indices { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 0; }
+.case-indices div { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 10px 12px; }
+.case-indices dt { color: var(--muted); font-size: 13px; }
+.case-indices dd { margin: 4px 0 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.case-hypotheses { margin: 10px 0 0; line-height: 1.5; }
+.case-medications .med-stopped td { color: var(--muted); }
+
+/* Origem da marcacao na anamnese: o que a extracao da IA marcou e o medico
+   ainda nao conferiu. Mesmo desenho do `.scale-suggested` e do
+   `.care-suggested`, que ja resolviam a mesma pergunta em outras telas --
+   tracejado quer dizer "proposto", continuo quer dizer "decidido".
+   A marca some no instante em que ele toca a caixa: dali em diante e dele.
+   Nao e cor sozinha: quem nao distingue a cor ainda ve o tracejado, e o
+   `title` diz a frase inteira.
+   A badge "IA" e `position: absolute`, de proposito: ate 23/09/2026 era
+   `::before` dentro do fluxo do flex, e engordava o chip. Marcar varias
+   caixas de uma vez (uma extracao tipica) deslocava a linha inteira e exigia
+   forcar o scroll de volta em cascata depois de pintar as marcas -- ver
+   `syncAnamnesisControlsFromDraft` em App.js. Sem largura propria, a badge
+   nunca mais empurra nada, e o forcar-scroll deixou de ser necessario. */
+.chip.chip-ai { position: relative; border-style: dashed; border-color: var(--primary-2); }
+.chip.chip-ai::before {
+  content: "IA";
+  position: absolute;
+  top: -8px; right: -6px;
+  font-size: 9px; font-weight: 700; letter-spacing: .04em;
+  color: var(--primary-2);
+  background: var(--surface);
+  padding: 0 3px;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+.ai-origin-legend { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 4px 0 12px; padding: 10px 12px; border-radius: var(--radius); border: 1px dashed color-mix(in srgb, var(--primary-2) 55%, var(--line)); color: var(--muted); line-height: 1.45; }
+.ai-origin-legend .chip { pointer-events: none; padding: 2px 8px; font-size: 12px; }
+
+/* Mesma marca do `.chip-ai`, para campo de texto/select em vez de caixa de
+   marcar -- identificacao do paciente preenchida pela extracao da IA. */
+.field-ai input, .field-ai select { border-style: dashed; border-color: var(--primary-2); }
+.field-ai { position: relative; }
+.field-ai::after {
+  content: "IA";
+  position: absolute;
+  top: -6px; right: 8px;
+  font-size: 9px; font-weight: 700; letter-spacing: .04em;
+  color: var(--primary-2);
+  background: var(--surface);
+  padding: 0 3px;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+
+/* Atalho de quem chega com o diagnostico pronto. Cartao discreto: e desvio do
+   fluxo, nao a acao principal da pagina. */
+.shortcut-card .actions { margin-top: 10px; }
+
+/* Botao de IA com chamada em voo. O cinza sozinho lia como "indisponivel";
+   com o cursor de espera, le como "estou indo". */
+[data-ai-busy="1"] { cursor: progress; opacity: .6; }
+
+/* A linha de proposta achatada com barras, desenhada como ficha. A string
+   guardada nao muda -- ver clinical/optionParts.js. O rotulo fica na primeira
+   coluna, em corpo menor, porque o que se le aqui e o VALOR: a dose, a
+   progressao, a interacao. */
+.option-parts {
+  display: grid;
+  gap: 5px;
+  overflow-wrap: anywhere;
+}
+
+.diagnosis-option .option-title {
+  font-weight: var(--w-strong);
+}
+
+.option-part {
+  display: grid;
+  grid-template-columns: minmax(0, 11ch) minmax(0, 1fr);
+  gap: 2px 12px;
+  align-items: baseline;
+}
+
+/* Detalhe sem rotulo conhecido continua texto, e ocupa a linha inteira: coluna
+   de rotulo vazia sugeriria campo que ficou por preencher. */
+.option-part-livre {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.diagnosis-option .option-part-rotulo {
+  font-size: 13px;
+  font-weight: var(--w-strong);
+  letter-spacing: .02em;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.diagnosis-option .option-part-valor {
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+/* Sem largura para duas colunas, o rotulo vira rotulo de cima, que e como um
+   formulario estreito se le. */
+@media (max-width: 720px) {
+  .option-part { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Falha e sucesso sairam no mesmo cinza ate 23/09/2026. A distincao nao e so
+   cor: a falha ganha barra, peso e o sinal antes do texto, e vai com
+   role="alert" -- ver clinical/statusTone.js. */
+.online-status.status-falha,
+.medication-source-status.status-falha {
+  color: var(--danger);
+  font-weight: var(--w-strong);
+  border-left: 3px solid var(--danger);
+  padding-left: 10px;
+}
+
+.status-falha::before {
+  content: "⚠ ";
+}
+
+/* Espera nao e resultado: fica em italico e sem barra, para nao ser lida como
+   a resposta que ainda nao chegou. */
+.online-status.status-espera,
+.medication-source-status.status-espera {
+  font-style: italic;
+}
+
+/* ============================================================
+   CAMADA DE IDENTIDADE 2 — "Vidro dourado"
+   Dourado/bronze sobre carvao quente, com prata de acabamento e vidro nas
+   superficies. Fontes, escala tipografica, --radius e toda a estrutura da
+   camada anterior ficam intactos -- so os TOKENS DE COR mudam, e e por isso
+   que uma camada pequena reskin o app inteiro: side, panel, section, dialog,
+   clinical-card, treatment-card, chip, botao, tudo ja lia --surface,
+   --primary-2, --sage, --line etc. de :root, entao redefinir os valores aqui
+   basta. Validado num mockup separado (_mockup-dashboard-premium.html) antes
+   de entrar aqui. Ultima camada do arquivo: prevalece sobre as anteriores.
+   ============================================================ */
+:root {
+  --bg:#15110d; --surface:#1e1811; --surface-2:#261e15;
+  --line: rgba(232,214,186,.16); --text:#f3ead9; --muted:#a99a86;
+
+  --primary:#3a2c1c; --primary-2:#d9a44e; --on-primary:#1a1206;
+  --sage:#cf9f7a; --amber:#e8c97a; --terracota-ink:#b8763f;
+  --danger:#c96a52; --on-danger:#1a1206;
+  /* Tokens crus (nao os semanticos acima) que alguma regra ainda le direto —
+     ex.: os 4 icones do Acesso rapido usam --verde/--terracota/--amarelo na
+     borda e --sage/--terracota-ink/--amber na cor do icone. Sem isto os dois
+     lados descasavam: icone dourado com aro verde. */
+  --verde: var(--sage); --terracota: var(--terracota-ink); --amarelo: var(--amber);
+
+  --accent:#d9a44e; --accent-soft:#261e15; --panel:#1e1811;
+
+  /* Prata: contraponto frio ao dourado, so em acabamento (RB do topo, botao
+     de tema, numeracao dos cards) -- nao e uma 5a cor de destaque. */
+  --silver:#cdd3da;
+
+  --shadow: 0 22px 50px rgba(6, 4, 2, .45);
+}
+
+body.light {
+  /* Cimento claro, pela referencia dele: cinza neutro e suave, sem tom
+     quente nem azulado. A tinta continua escura o bastante para contraste;
+     so deixou de ser marfim/cafe -- agora e a mesma familia neutra do fundo. */
+  color-scheme: light;
+  --bg:#d6d4cf; --surface:#e1dfda; --surface-2:#c9c7c1;
+  --line: rgba(40,36,28,.16); --text:#3d372c; --muted:#5c594f;
+
+  /* Mais escuras que no escuro de proposito: o mesmo dourado que passa em
+     9:1 sobre carvao cai pra 3:1 sobre cimento claro -- fundo claro precisa
+     de tinta mais escura pro mesmo contraste. Conferido com a formula do
+     WCAG antes de entrar aqui: as quatro passam de 4,5:1. */
+  --primary:#d6d4cf; --primary-2:#7a4d12; --on-primary:#fff8ec;
+  --sage:#6e4728; --terracota-ink:#7a4a1f; --amber:#6e5011;
+  --danger:#9b4436; --on-danger:#ffffff;
+
+  --accent:#7a4d12; --accent-soft:#c9c7c1; --panel:#e1dfda;
+  --silver:#7a7770;
+
+  --shadow: 0 16px 40px rgba(58,42,20,.14);
+}
+
+/* Cimento no fundo do CLARO, pela foto de referencia dele: manchas grandes,
+   macias e irregulares, nunca um padrao que se repete -- foi exatamente o
+   losango do rascunho anterior (repeating-linear-gradient) que ele recusou.
+   Cada radial-gradient e uma mancha isolada, em posicao e tamanho proprios,
+   igual concreto de verdade nao teria duas manchas iguais. O escuro nao
+   muda: era o fundo de antes, e ele so pediu o teste no claro. */
+body.light {
+  background:
+    radial-gradient(ellipse 55% 38% at 18% 12%, rgba(255,255,255,.55), transparent 60%),
+    radial-gradient(ellipse 46% 42% at 78% 22%, rgba(0,0,0,.05), transparent 62%),
+    radial-gradient(ellipse 50% 46% at 30% 68%, rgba(0,0,0,.045), transparent 60%),
+    radial-gradient(ellipse 42% 38% at 88% 78%, rgba(255,255,255,.4), transparent 58%),
+    radial-gradient(ellipse 60% 50% at 55% 95%, rgba(0,0,0,.035), transparent 65%),
+    var(--bg);
+}
+
+/* Vidro de verdade, em toda caixa E todo botao da interface -- nao so nos
+   4 cards do Acesso rapido. Dois erros da tentativa anterior, apontados:
+
+   1) O "reflexo" era um linear-gradient(135deg, branco, transparente) por
+      cima do fundo. Isso pinta um bloco diagonal solido que, sobre um fundo
+      opaco, le como um TRIANGULO de luz colado no canto superior esquerdo
+      de cada caixa. Removido -- nao ha mais gradiente nenhum, so um
+      preenchimento translucido chapado (sem direcao, sem forma).
+   2) O fundo ainda misturava a cor de superficie do tema (var(--surface))
+      com a transparencia -- isso e uma caixa meio-colorida, nao vidro.
+      Vidro de verdade nao tem tinta propria: e so um filme quase
+      transparente (rgba branco puro, opacidade baixa, ~5% no escuro) que
+      deixa o backdrop-filter borrar o que estiver atras -- a cor que
+      aparece dentro da caixa e sempre a cor borrada do fundo do body (ver
+      body::before mais abaixo), nunca uma tinta da propria caixa.
+
+   Selecao explicita, nao so `button`: cada variante (.primary, .dash-button,
+   .icon-button etc.) ja tinha um "background:" proprio vindo de uma camada
+   anterior do arquivo, e classe sempre vence tipo-de-elemento em
+   especificidade CSS independente da ordem -- um `button {}` sozinho no
+   fim do arquivo nao bastava pra sobrescrever ".dash-button { background:
+   var(--surface) }" declarado mais acima. Por isso cada classe esta listada
+   aqui, na ultima camada do arquivo (a que prevalece).
+
+   .primary/.secondary/.danger ficam de fora da regra de BORDA (2a regra
+   abaixo): eles mantêm a propria borda/cor semantica (acento de acao,
+   vermelho de risco) definida mais acima no arquivo -- so o preenchimento
+   vira vidro, pra continuar dando pra distinguir "botao de risco" de
+   "botao comum" sem precisar de uma caixa cheia. */
+.side, .panel, .section, dialog,
+button, .primary, .secondary, .danger, .dash-button,
+.icon-button, .compact-action, .nav-button {
+  background: rgba(255, 255, 255, .05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: var(--shadow);
+}
+
+.side, .panel, .section, dialog,
+button, .dash-button, .icon-button, .compact-action, .nav-button {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, .14);
+}
+
+.danger { color: var(--danger); }
+
+/* Claro: o mesmo filme de 5% branco sobre um fundo ja claro nao muda nada
+   visivel -- precisa de bem mais peso (40%) pra continuar lendo como vidro
+   fosco e nao como "fundo normal sem borda". */
+body.light .side, body.light .panel, body.light .section, body.light dialog,
+body.light button, body.light .primary, body.light .secondary, body.light .danger,
+body.light .dash-button, body.light .icon-button, body.light .compact-action,
+body.light .nav-button {
+  background: rgba(255, 255, 255, .4);
+}
+
+body.light .side, body.light .panel, body.light .section, body.light dialog,
+body.light button, body.light .dash-button, body.light .icon-button,
+body.light .compact-action, body.light .nav-button {
+  border-color: rgba(255, 255, 255, .6);
+}
+
+.topbar {
+  background: rgba(255, 255, 255, .05);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border-bottom-width: 1px;
+}
+body.light .topbar { background: rgba(255, 255, 255, .4); }
+
+.dash-button:hover {
+  box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--primary-2) 55%, transparent);
+}
+.dash-button:nth-child(2):hover { box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--sage) 55%, transparent); }
+.dash-button:nth-child(3):hover { box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--terracota-ink) 55%, transparent); }
+.dash-button:nth-child(4):hover { box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--amber) 55%, transparent); }
+
+.primary:hover {
+  box-shadow: 0 14px 30px -16px color-mix(in srgb, var(--primary-2) 60%, transparent);
+}
+
+/* RB do topo e o botao de tema: prata, nao dourado -- e acabamento neutro,
+   nao e o acento da marca. */
+.brand-mark {
+  color: var(--silver);
+  border-color: color-mix(in srgb, var(--silver) 42%, var(--line));
+  background: color-mix(in srgb, var(--silver) 12%, transparent);
+}
+.icon-button, .compact-action { color: var(--silver); }
+
+/* Cor por tras do vidro, pra valer: 5 manchas grandes espalhadas pelo
+   viewport inteiro (cantos + centro), nao 2 bolinhas de canto como antes --
+   e por isso que agora ha cor borrada atras de qualquer painel, nao so dos
+   que encostam no topo/rodape da tela. Mesmas 4 cores dos icones do Acesso
+   rapido (nenhuma paleta nova). position:fixed + inset negativo: cobre além
+   do viewport pra o blur não cortar a mancha na borda, e acompanha a tela ao
+   rolar -- qualquer painel translucido que passe por cima continua revelando
+   cor borrada atras de si. z-index:-1, pointer-events:none, sem animacao:
+   e decoracao pura, nunca bloqueia clique nem chama atencao sozinha. */
+body::before {
+  content: ""; position: fixed; inset: -10vh -10vw; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(40% 36% at 12% 8%, color-mix(in srgb, var(--primary-2) 65%, transparent), transparent 72%),
+    radial-gradient(36% 34% at 88% 14%, color-mix(in srgb, var(--sage) 60%, transparent), transparent 72%),
+    radial-gradient(44% 40% at 15% 68%, color-mix(in srgb, var(--terracota-ink) 62%, transparent), transparent 72%),
+    radial-gradient(40% 38% at 88% 66%, color-mix(in srgb, var(--amber) 62%, transparent), transparent 72%),
+    radial-gradient(36% 34% at 50% 60%, color-mix(in srgb, var(--primary-2) 40%, transparent), transparent 72%);
+  filter: blur(90px);
+  opacity: .55;
+}
+body.light::before { opacity: .32; }

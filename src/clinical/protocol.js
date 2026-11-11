@@ -1,0 +1,130 @@
+// Motor do Refinamento.
+//
+// O módulo público usa um catálogo original e reduzido de perguntas geriátricas.
+// A IA escolhe pelos ids da lista fechada; ids desconhecidos são descartados.
+
+import { lifeStageBlocksWithIds } from "../data/protocol/lifeStageQuestions.js";
+
+let protocolo = null;
+
+// Os blocos por faixa etaria entram no MESMO catalogo, e nao ao lado dele: a IA
+// escolhe por id de uma lista so, o resolvedor confere de uma lista so, e a
+// tela nao precisa saber que ha duas origens. O que os distingue e o campo
+// `origem`, que fica visivel em cada pergunta.
+function todosOsBlocos() {
+  return [...(protocolo?.blocos || []), ...lifeStageBlocksWithIds()];
+}
+
+export async function loadProtocol() {
+  if (protocolo) return protocolo;
+  const resposta = await fetch("src/data/protocol/entrevista.json");
+  if (!resposta.ok) throw new Error(`Protocolo de entrevista indisponivel (HTTP ${resposta.status}).`);
+  protocolo = await resposta.json();
+  return protocolo;
+}
+
+export function protocolLoaded() {
+  return Boolean(protocolo);
+}
+
+function flatten(lista) {
+  return todosOsBlocos().flatMap(bloco =>
+    (bloco[lista] || []).map(item => ({ ...item, campo: bloco.campo })));
+}
+
+/** Toda pergunta do protocolo, achatada, com o bloco de origem em cada uma. */
+export function protocolQuestions() {
+  return flatten("perguntas");
+}
+
+/** Sinais de alerta do protocolo — substituem as red flags que a IA inventava. */
+export function protocolAlerts() {
+  return flatten("sinais_de_alerta");
+}
+
+/** Os itens que os proprios livros marcam como imprescindiveis. */
+export function protocolMandatory() {
+  return flatten("obrigatorio");
+}
+
+// Indice por id, montado uma vez para cada protocolo carregado. Antes cada
+// consulta achatava os ~750 itens de novo e procurava um a um -- e o
+// refinamento consulta um id por pergunta, sinal e lacuna. Id repetido fica com
+// o primeiro, como fazia o find().
+let indicePorId = null;
+let indiceMontadoPara;
+
+/** Devolve o item do protocolo pelo id, seja pergunta, obrigatorio ou sinal. */
+export function protocolItemById(id = "") {
+  if (!id) return null;
+  if (!indicePorId || indiceMontadoPara !== protocolo) {
+    indicePorId = new Map();
+    [...protocolQuestions(), ...protocolMandatory(), ...protocolAlerts()].forEach(item => {
+      if (item.id && !indicePorId.has(item.id)) indicePorId.set(item.id, item);
+    });
+    indiceMontadoPara = protocolo;
+  }
+  return indicePorId.get(id) || null;
+}
+
+// O catalogo que vai ao prompt, uma linha por item. Mandar os objetos
+// inteiros custava 40 mil tokens por refinamento; assim custa 27 mil.
+//
+// So o `quando` sobrevive ao corte, porque so ele guia a escolha: e o campo
+// que diz em que situacao a pergunta cabe. O `por_que` do obrigatorio e a
+// `conduta` do sinal nao ajudam a escolher — o app os busca pelo id depois de
+// a IA responder, e eles chegam inteiros a tela.
+//
+// O catalogo e identico em toda consulta. Por isso vai na frente do prompt,
+// antes dos dados do paciente: assim o trecho estavel pode ser reaproveitado
+// pelo cache do modelo, e so a parte que muda e cobrada de novo.
+/**
+ * Etapa 1 do refinamento: um Noul por bloco, para o Jev escolher quais dos 31
+ * blocos sao pertinentes ao caso, sem gastar uma chamada GPT so pra isso.
+ *
+ * Ate 22/09/2026 esta etapa era outra chamada de IA generativa: o catalogo
+ * inteiro pede 33 mil tokens e a conta tem teto de 30 mil por minuto, a
+ * requisicao nao passava, e a saida era so uma classificacao (quais blocos
+ * cabem), nao texto novo -- exatamente o que um julgamento calibrado faz mais
+ * rapido e mais barato que gerar. A escolha continua sendo de lista fechada:
+ * o Jev julga cada bloco pelo mesmo "cobre" que ia no prompt antigo, so que
+ * como pergunta sim/nao em vez de linha de catalogo.
+ */
+export function protocolScopeQuestions(limiteAchados = 6) {
+  const perguntas = {};
+  todosOsBlocos().forEach(bloco => {
+    const cobre = (bloco.achados || [])
+      .slice(0, limiteAchados)
+      .map(achado => achado.achado)
+      .filter(Boolean)
+      .join(", ") || bloco.campo;
+    perguntas[bloco.campo] = {
+      instructions: `O caso levanta, mesmo que so para descartar, algum destes achados: ${cobre}?`,
+      criteria: {
+        true: `O relato toca em pelo menos um de: ${cobre}.`,
+        false: `O relato nao toca em nenhum destes achados.`
+      }
+    };
+  });
+  return perguntas;
+}
+
+/** Etapa 2: so os blocos escolhidos. Bloco desconhecido e ignorado. */
+export function protocolCatalogText(campos = null, limiteQuando = 140) {
+  const querido = campos?.length ? new Set(campos) : null;
+  const doEscopo = itens => (querido ? itens.filter(item => querido.has(item.campo)) : itens);
+  const perguntas = doEscopo(protocolQuestions())
+    .map(item => `${item.id} | ${item.pergunta} | quando: ${String(item.quando || "").slice(0, limiteQuando)}`);
+  const obrigatorios = doEscopo(protocolMandatory()).map(item => `${item.id} | ${item.item}`);
+  const sinais = doEscopo(protocolAlerts()).map(item => `${item.id} | ${item.sinal}`);
+  return [
+    "PERGUNTAS DO PROTOCOLO (escolha por id; nao invente pergunta):",
+    perguntas.join("\n"),
+    "",
+    "ITENS QUE OS LIVROS MARCAM COMO IMPRESCINDIVEIS:",
+    obrigatorios.join("\n"),
+    "",
+    "SINAIS DE ALERTA DO PROTOCOLO:",
+    sinais.join("\n")
+  ].join("\n");
+}
