@@ -3002,7 +3002,7 @@ function formToObject(form) {
 
 function defaultConsultation() {
   const count = state.consultations.filter(item => item.patientId === selectedPatientId).length + 1;
-  return { patientId: selectedPatientId, label: `Consulta ${count}`, type: "consultation", consultationMode: "IN_PERSON", anamnesisInputMode: "manual" };
+  return { patientId: selectedPatientId, label: `Consulta ${count}`, type: "consultation", module: "geriatria", consultationMode: "IN_PERSON", anamnesisInputMode: "manual" };
 }
 
 // O atendimento a que o retorno novo responde. Ate 14/09/2026 era a consulta
@@ -3025,7 +3025,7 @@ function defaultReturn() {
     if (latestSavedReturn) return structuredClone(latestSavedReturn);
   }
   const previousEntryId = pendingEntry?.id || consultations[0]?.id || "";
-  return { patientId: selectedPatientId, label: "Retorno", type: "return", previousEntryId };
+  return { patientId: selectedPatientId, label: "Retorno", type: "return", module: "geriatria", previousEntryId };
 }
 
 function startNewReturn(setup = {}) {

@@ -1,6 +1,7 @@
 import { anamnesisText } from "./narrative.js";
 import { arrayValue, joinValues, normalizeText } from "./textFormat.js";
 import { doctorDiagnosisAliases, doctorDiagnosisOptions } from "./vocabulary.js";
+import { geriatricFieldText, geriatricHistoryFields, geriatricPhysicalFields } from "./geriatrics.js";
 
 export function treatmentOptionLines(value = "") {
   if (Array.isArray(value)) return value.filter(Boolean);
@@ -183,6 +184,7 @@ export function buildDiagnosticSuggestion(form) {
     joinValues(form.aparencia), joinValues(form.consciencia), joinValues(form.atencao), joinValues(form.orientacao), joinValues(form.memoria), joinValues(form.sensopercepcao),
     joinValues(form.pensamentoCursoForma), joinValues(form.pensamentoConteudo), joinValues(form.linguagem),
     joinValues(form.humor), joinValues(form.afeto), joinValues(form.psicomotricidade), joinValues(form.vontade), joinValues(form.juizoCritico),
+    geriatricFieldText(form, geriatricHistoryFields), geriatricFieldText(form, geriatricPhysicalFields),
     form.observacoesRetorno
   ].filter(Boolean).join(" | ");
   const text = stripNegated(normalizeText(sourceText));
@@ -192,7 +194,8 @@ export function buildDiagnosticSuggestion(form) {
   // sindrome. E sem correspondencia nao propoe nada, mesmo criterio do
   // servidor, que devolve 422 em vez de responder sem fonte.
   const marcaDeTranstorno = hasDisorderMarker(form);
-  const byCategory = (categoria, limit) => diagnosticRules()
+  const regras = isGeriatricForm(form) ? geriatricDiagnosticRules() : diagnosticRules();
+  const byCategory = (categoria, limit) => regras
     .filter(rule => rule.categoria === categoria)
     .map(rule => ({ ...rule, score: rule.terms.reduce((sum, term) => sum + (text.includes(term) ? 1 : 0), 0) }))
     .filter(rule => rule.score > 0)
@@ -235,6 +238,29 @@ export function buildDiagnosticSuggestion(form) {
     diagnosticoManual: selectedDoctorOptions.join("\n"),
     diferenciais: ""
   };
+}
+
+function isGeriatricForm(form = {}) {
+  return form.module === "geriatria"
+    || geriatricHistoryFields.some(([key]) => Object.hasOwn(form, key))
+    || geriatricPhysicalFields.some(([key]) => Object.hasOwn(form, key));
+}
+
+// Contingência local para Geriatria quando o RAG ainda não estiver configurado.
+// São síndromes e condições geriátricas que orientam a investigação; não são
+// diagnóstico automático e continuam exigindo confirmação médica.
+function geriatricDiagnosticRules() {
+  return [
+    { name: "Síndrome de fragilidade", categoria: "sindromico", terms: ["fragilidade", "fraqueza", "perda de peso", "marcha lenta", "baixa atividade"], differential: "sarcopenia, desnutrição, depressão, anemia e doença aguda." },
+    { name: "Síndrome de imobilidade e risco de quedas", categoria: "sindromico", terms: ["queda", "quedas", "medo de cair", "instabilidade", "marcha", "equilibrio", "equilíbrio"], differential: "hipotensão ortostática, alteração vestibular, neuropatia, medicamentos e doença neurológica." },
+    { name: "Síndrome confusional aguda (delirium)", categoria: "nosologico", cid11: "6D70", dsm5tr: "F05", nomeia: ["delirium", "confusao aguda", "confusão aguda"], terms: ["desatenção", "desatencao", "flutuação", "flutuacao", "início súbito", "inicio subito", "confusão", "confusao"], differential: "infecção, desidratação, distúrbio metabólico, dor e efeito medicamentoso." },
+    { name: "Transtorno neurocognitivo maior", categoria: "nosologico", cid11: "6D80-6D8Z", dsm5tr: "294.20", nomeia: ["demencia", "demência", "alzheimer", "transtorno neurocognitivo maior"], terms: ["declínio cognitivo", "declinio cognitivo", "perda de memoria", "perda de memória", "esquecimento progressivo", "apraxia", "agnosia"], differential: "delirium, depressão, deficiência de B12, hipotireoidismo e causas vasculares." },
+    { name: "Síndrome de desnutrição ou risco nutricional", categoria: "sindromico", terms: ["perda de peso", "baixo peso", "desnutrição", "desnutricao", "perda de apetite", "disfagia", "engasgo"], differential: "neoplasia, doença gastrointestinal, depressão, disfagia e efeito medicamentoso." },
+    { name: "Polifarmácia e risco iatrogênico", categoria: "etiologico", terms: ["polifarmacia", "polifarmácia", "muitos medicamentos", "efeito adverso", "iatrogenia", "tontura ao levantar"], differential: "doença de base, interação medicamentosa, desidratação e hipotensão ortostática." },
+    { name: "Incontinência urinária", categoria: "nosologico", cid11: "MF50", dsm5tr: "788.30", nomeia: ["incontinencia urinaria", "incontinência urinária"], terms: ["incontinência", "incontinencia", "perda de urina", "urgência urinária", "urgencia urinaria"], differential: "infecção urinária, constipação, medicamentos, hiperplasia prostática e causas neurológicas." },
+    { name: "Dor crônica e limitação osteomuscular", categoria: "nosologico", cid11: "MG30", dsm5tr: "G89.29", nomeia: ["dor cronica", "dor crônica", "osteoartrose"], terms: ["dor", "osteoartrose", "limitação articular", "limitacao articular", "rigidez"], differential: "fratura, artrite inflamatória, neuropatia e dor visceral." },
+    { name: "Necessidade de cuidados paliativos", categoria: "etiologico", terms: ["cuidados paliativos", "fim de vida", "doença avançada", "doenca avancada", "sofrimento"], differential: "doença aguda reversível, depressão, delirium e necessidade de suporte social." }
+  ];
 }
 
 export function parseTreatmentResponse(text = "") {

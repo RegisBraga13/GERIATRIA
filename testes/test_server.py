@@ -357,24 +357,17 @@ class ValidateResultTests(unittest.TestCase):
         diagnosticar pela psicofarmacologia sem nenhum erro na tela.
         """
         esperado = {
-            "anamnesis": ("psicopatologia", "entrevista"),
-            "refinement": ("psicopatologia", "entrevista"),
-            # Os dois lados: o fenomeno (Dalgalarrondo, Cheniaux) e a entidade
-            # (FMUSP vol. 2). Lendo so a FMUSP, o app nao chegou a sindrome de
-            # Cotard num caso que a tinha.
-            "diagnosis": ("psicopatologia", "sindromes", "criterios"),
-            "diagnosis_review": ("tratado",),
-            "treatment": ("terapeutica",),
-            "treatment_review": ("tratado",),
-            "medication": ("prescricao",),
-            "medication_review": ("psicofarmacologia",),
-            "medication_tips": ("psicofarmacologia",),
-            "symptomatic": ("psicofarmacologia",),
-            # Duas prateleiras porque sao duas perguntas: a conduta (quando
-            # ajustar, quando trocar) e o curso (o que e remissao, o que e
-            # recaida). Ate 31/08/2026 nao havia linha nenhuma, e a Evolucao era
-            # a unica etapa clinica que escrevia sem livro.
-            "evolution": ("terapeutica", "tratado"),
+            "anamnesis": ("geriatria", "avaliacao geriatrica", "gerontologia"),
+            "refinement": ("geriatria", "sindromes geriatricas", "gerontologia"),
+            "diagnosis": ("geriatria", "sindromes geriatricas", "gerontologia"),
+            "diagnosis_review": ("geriatria", "gerontologia"),
+            "treatment": ("geriatria", "terapeutica geriatrica", "gerontologia"),
+            "treatment_review": ("geriatria", "terapeutica geriatrica", "gerontologia"),
+            "medication": ("geriatria", "prescricao geriatrica"),
+            "medication_review": ("geriatria", "polifarmacia", "desprescricao"),
+            "medication_tips": ("geriatria", "polifarmacia", "desprescricao"),
+            "symptomatic": ("geriatria", "sindromes geriatricas"),
+            "evolution": ("geriatria", "gerontologia"),
         }
         # Nenhuma etapa clinica pode ficar de fora do mapa: sem linha aqui, a
         # etapa nao falha -- ela responde de cabeca, e a falta so aparece na
@@ -1233,13 +1226,13 @@ class GuidelinesModeTests(unittest.TestCase):
 
     def test_a_busca_dos_livros_continua_filtrando_por_genero(self):
         """A separacao nao pode ter afrouxado a da biblioteca: o Tratamento le
-        `terapeutica`, e so."""
+        `terapeutica geriatrica`, e so."""
         with patch.object(server, "vector_store_search", return_value=[]) as busca:
             with patch.dict("os.environ", {"OPENAI_RAG_VECTOR_STORE_ID": "vs_livros"}, clear=False):
                 server.search_rag_sources("depressao", "sk-teste", kind="treatment")
         store_id, _query, _api_key, filtros = busca.call_args[0]
         self.assertEqual(store_id, "vs_livros")
-        self.assertEqual([f["value"] for f in filtros["filters"]], ["terapeutica"])
+        self.assertEqual([f["value"] for f in filtros["filters"]], ["geriatria", "terapeutica geriatrica", "gerontologia"])
 
     def test_o_contrato_preserva_a_forca_da_recomendacao(self):
         """A unica coisa que o acervo tem de diferente. Dizer "considere" onde a

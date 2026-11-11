@@ -249,7 +249,7 @@ export function refineButton(action, liberado) {
 // O valor antigo segue valendo como padrao: registro salvo antes da separacao
 // reabre no modo em que foi gerado, em vez de aparecer em outro sem explicacao.
 export function treatmentAiMode(form = {}) {
-  return form.treatmentAiMode || form.pharmaAiMode || "rag";
+  return form.treatmentAiMode || form.pharmaAiMode || (form.module === "geriatria" ? "guidelines" : "rag");
 }
 
 // O catálogo é entregue pelo servidor. Se a fonte salva saiu da lista desta

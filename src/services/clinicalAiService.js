@@ -280,8 +280,8 @@ export function buildRagQuery(kind, form = {}, { paciente = null } = {}) {
     // Sem exame preenchido — diagnostico pedido antes dele — cai na formulacao
     // antiga, que e o unico dado que existe nessa hora.
     return exame
-      ? `Criterios diagnosticos e diagnostico diferencial. Exame psiquico: ${exame}. Queixa: ${form.queixa || ""}`.slice(0, 4000)
-      : `Criterios diagnosticos e diagnostico diferencial para: ${symptoms}`.slice(0, 4000);
+      ? `Diagnóstico geriátrico e diagnóstico diferencial. Avaliação funcional e exame físico: ${exame}. Queixa: ${form.queixa || ""}`.slice(0, 4000)
+      : `Diagnóstico geriátrico, avaliação funcional e diagnóstico diferencial para: ${symptoms}`.slice(0, 4000);
   }
   // A busca da revisao nao repete a da geracao: o que se pergunta ao livro
   // especializado e se AQUELAS hipoteses se sustentam. Sem as hipoteses na
@@ -757,7 +757,7 @@ export function buildWebQuery(kind, form = {}) {
     return `Seguimento de ${unicos || farmacos.join("; ")}${farmacos.length && unicos ? ` em uso de ${farmacos.join("; ")}` : ""}: tempo esperado de resposta, criterio de remissao, quando ajustar dose ou trocar`;
   }
   if (kind === "diagnosis" || kind === "diagnosis_review") {
-    return unicos ? `Criterios diagnosticos DSM-5-TR e CID-11 e diagnostico diferencial para: ${unicos}` : "";
+    return unicos ? `Critérios diagnósticos, avaliação funcional e diagnóstico diferencial geriátrico para: ${unicos}` : "";
   }
   return "";
 }
@@ -1108,11 +1108,19 @@ export function buildClinicalAiPrompt(kind, form = {}, patient = {}, previous = 
       : "",
     "Nao invente dado clinico novo. Voce revisa o raciocinio, nao o registro."
   ].filter(Boolean);
+  const geriatricTask = form.module === "geriatria" && ["diagnosis", "diagnosis_review", "treatment", "treatment_review"].includes(kind)
+    ? [
+      "Este e um caso de GERIATRIA. Priorize avaliacao geriatrica ampla, funcionalidade, cognicao, humor, mobilidade, marcha, quedas, nutricao, continencia, polifarmacia, suporte social e objetivos do paciente.",
+      "Diferencie sindromes geriatricas de doencas nosologicas e procure causas clinicas, iatrogenicas e ambientais reversiveis. Delirium e uma urgencia clinica: quando houver inicio agudo ou flutuacao de atencao/consciencia, sinalize avaliacao imediata e investigacao de causa, sem atribuir automaticamente a demencia.",
+      "No tratamento geriatrico, considere funcao e seguranca antes da prescricao: intervencoes nao farmacologicas, revisao de medicamentos e desprescricao quando indicada, principio 'start low, go slow', risco de quedas, carga anticolinergica, funcao renal/hepatica e preferencias do paciente e do cuidador.",
+      "Use CID-11/CID-10 quando houver entidade aplicavel; para sindromes geriátricas descritivas, mantenha os codigos em branco e explique os achados e os criterios ainda nao avaliados."
+    ]
+    : [];
   const task = REVIEW_OF_KIND[kind]
-    ? [...reviewTask, ...taskByKind[REVIEW_OF_KIND[kind]]]
-    : (taskByKind[kind] || taskByKind.evolution);
+    ? [...geriatricTask, ...reviewTask, ...taskByKind[REVIEW_OF_KIND[kind]]]
+    : [...geriatricTask, ...(taskByKind[kind] || taskByKind.evolution)];
   return [
-    "Voce e um assistente especializado em psiquiatria, documentacao medica e prontuario eletronico.",
+    "Voce e um assistente especializado em geriatria, documentacao medica e prontuario eletronico.",
     "Responda em portugues do Brasil, com linguagem tecnica, clara, objetiva e utilizavel em prontuario.",
     "Nao invente dados. Quando algo nao estiver informado, sinalize como dado ausente ou necessidade de confirmacao.",
     "",

@@ -8,6 +8,28 @@ As demais páginas e lógicas clínicas ainda refletem a base de Psiquiatria. Es
 
 O catálogo de entrevista derivado de obras licenciadas do projeto privado **não foi copiado**. Há um roteiro original e reduzido para manter o refinamento funcional nesta base pública.
 
+## RAG e guidelines de Geriatria
+
+As diretrizes encontradas no computador foram incorporadas em `diretrizes/geriatria/`. O conjunto cobre avaliação geriátrica ampla, fragilidade, sarcopenia, quedas, delirium, demências, nutrição, disfagia, incontinência, polifarmácia e desprescrição, osteoporose, diabetes, hipertensão, Parkinson, infecção urinária e cuidados paliativos.
+
+Também foram localizados acervos RAG de Geriatria em `C:\Users\Regis\Downloads\especialidades\backend\acervo\geriatria\` e as regras de especialidade em `C:\Users\Regis\Desktop\Aplicativos\especialidades\backend\app\especialidades\geriatria.py`. O acervo de livros permanece fora deste repositório; use os arquivos autorizados na ingestão da Vector Store.
+
+Para indexá-las em uma Vector Store separada, configure `OPENAI_API_KEY` e execute:
+
+```bash
+python scripts/ingest_guidelines.py diretrizes/geriatria --store-name "Diretrizes de Geriatria - Regis Braga"
+```
+
+Copie o `OPENAI_GUIDELINES_VECTOR_STORE_ID` exibido para o `.env`. O Tratamento de uma nova consulta geriátrica passa a abrir por padrão no modo Guidelines. A geração continua exigindo revisão e seleção médica.
+
+Para um acervo bibliográfico autorizado, use uma Vector Store própria do RAG e a etiqueta geriátrica:
+
+```bash
+python scripts/ingest_rag.py C:/caminho/para/arquivos.md --escopo geriatria
+```
+
+Copie o `OPENAI_RAG_VECTOR_STORE_ID` exibido para o `.env`. Diagnóstico e refinamento passam a procurar os escopos de Geriatria configurados no módulo.
+
 ## Executar localmente
 
 ```bash

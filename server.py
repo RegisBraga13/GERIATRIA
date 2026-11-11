@@ -2456,7 +2456,7 @@ class PrototypeHandler(SimpleHTTPRequestHandler):
                     if criterios:
                         logger.info("diagnosis_review: %d criterio(s) do DSM-5-TR anexado(s)", len(criterios))
                     sources = criterios + sources
-                # O acervo e de psiquiatria. Quando o medico pergunta por um
+                # O acervo e de geriatria. Quando o medico pergunta por um
                 # farmaco que nao e dele -- losartana, metformina, omeprazol, o
                 # que o paciente ja toma --, o livro nao tem, mas a busca
                 # responde assim mesmo. Aqui se confere se responde SOBRE ELE.

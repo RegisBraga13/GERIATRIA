@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { buildEvolutionNarrative } from "../../src/clinical/narrative.js";
+import { buildDiagnosticSuggestion } from "../../src/clinical/diagnosis.js";
 import { clinicalSummaryGroups } from "../../src/views/clinicalSummary.js";
 import { geriatricHistoryBody, geriatricPhysicalBody } from "../../src/views/geriatrics.js";
+import { treatmentAiMode } from "../../src/views/decisions.js";
 
 describe("campos geriátricos", () => {
   const form = {
@@ -33,5 +35,16 @@ describe("campos geriátricos", () => {
   it("não presume exame físico normal quando nada foi registrado", () => {
     const physical = clinicalSummaryGroups({}, {}).find(group => group.title === "Exame físico");
     assert.ok(physical.rows.every(row => !/sem alterações/i.test(row.value)));
+  });
+
+  it("usa diagnóstico local e fonte de guidelines próprios da Geriatria", () => {
+    const sugestao = buildDiagnosticSuggestion({
+      module: "geriatria",
+      queixa: "Quedas e marcha lenta",
+      geriatriaMobilidadeQuedas: "Duas quedas, medo de cair e instabilidade",
+      geriatriaFuncionalidade: "Precisa de ajuda para banho"
+    });
+    assert.match(sugestao.diagnosticoAiSindromico, /fragilidade|quedas/i);
+    assert.equal(treatmentAiMode({ module: "geriatria" }), "guidelines");
   });
 });

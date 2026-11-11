@@ -4,19 +4,19 @@
 GUIDELINES_ENV_KEY = "OPENAI_GUIDELINES_VECTOR_STORE_ID"
 
 RAG_SCOPE_BY_KIND = {
-    "anamnesis": ("psicopatologia", "entrevista"),
-    "refinement": ("psicopatologia", "entrevista"),
-    "return_assessment": ("psicopatologia", "entrevista"),
-    "diagnosis": ("psicopatologia", "sindromes", "criterios"),
-    "treatment": ("terapeutica",),
-    "return_plan": ("terapeutica",),
-    "diagnosis_review": ("tratado",),
-    "treatment_review": ("tratado",),
-    "medication": ("prescricao",),
-    "medication_review": ("psicofarmacologia",),
-    "medication_tips": ("psicofarmacologia",),
-    "evolution": ("terapeutica", "tratado"),
-    "symptomatic": ("psicofarmacologia",),
+    "anamnesis": ("geriatria", "avaliacao geriatrica", "gerontologia"),
+    "refinement": ("geriatria", "sindromes geriatricas", "gerontologia"),
+    "return_assessment": ("geriatria", "gerontologia"),
+    "diagnosis": ("geriatria", "sindromes geriatricas", "gerontologia"),
+    "treatment": ("geriatria", "terapeutica geriatrica", "gerontologia"),
+    "return_plan": ("geriatria", "terapeutica geriatrica", "gerontologia"),
+    "diagnosis_review": ("geriatria", "gerontologia"),
+    "treatment_review": ("geriatria", "terapeutica geriatrica", "gerontologia"),
+    "medication": ("geriatria", "prescricao geriatrica"),
+    "medication_review": ("geriatria", "polifarmacia", "desprescricao"),
+    "medication_tips": ("geriatria", "polifarmacia", "desprescricao"),
+    "evolution": ("geriatria", "gerontologia"),
+    "symptomatic": ("geriatria", "sindromes geriatricas"),
 }
 
 RAG_ALWAYS_SCOPE_BY_KIND = {"diagnosis": ("criterios",)}
@@ -61,7 +61,7 @@ def build_source_registry(allowed_kinds, web_contract, no_web_contract, guidelin
                 "code": "guidelines_not_configured",
             },
             "outside_scope": {
-                "error": "As diretrizes nao cobrem esta hipotese. O acervo e de psiquiatria, e responde a partir do "
+                "error": "As diretrizes nao cobrem esta hipotese. O acervo e de geriatria, e responde a partir do "
                          "diagnostico assinalado -- confira se ha hipotese marcada.",
                 "code": "guidelines_sem_cobertura",
             },
