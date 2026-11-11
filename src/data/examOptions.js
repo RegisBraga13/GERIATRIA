@@ -18,6 +18,9 @@ export const optionGroups = {
   psiPrevios: ["Depressao", "Transtorno bipolar", "Transtorno de ansiedade generalizada", "Transtorno do panico", "TOC", "TEPT", "TDAH", "Transtorno psicotico", "Transtorno alimentar", "Epilepsia", "Nega diagnostico psiquiatrico previo", "Outro"],
   tratamentos: ["Psicoterapia", "Antidepressivos", "Estabilizador de humor", "Antipsicotico", "Benzodiazepinico", "Hipnotico", "Psicoestimulante", "ECT", "Internacao psiquiatrica", "Nega tratamento previo", "Outro"],
   familiares: ["Depressao", "Transtorno bipolar", "Esquizofrenia", "Ansiedade", "TOC", "Tentativa ou Suicidio", "Demencia", "Nega historico familiar psiquiatrico", "Outro"],
+  geriatriaDiagnosticos: ["Hipertensão", "Diabetes", "Doença cardiovascular", "AVC", "Doença renal crônica", "Doença pulmonar crônica", "Demência", "Depressão", "Osteoporose", "Fratura por fragilidade", "Câncer", "Outro"],
+  geriatriaTratamentos: ["Cirurgia", "Internação", "Reabilitação", "Fisioterapia", "Terapia ocupacional", "Psicoterapia", "Cuidados paliativos", "Outro"],
+  geriatriaFamiliares: ["Demência", "Doença cardiovascular", "AVC", "Diabetes", "Câncer", "Osteoporose ou fratura", "Depressão", "Outro"],
   substancias: ["Tabaco", "Alcool", "Cannabis", "Cocaina", "Crack", "Anfetaminas", "Benzodiazepinicos sem prescricao", "Opioides", "Alucinogenos", "Cafeina excessiva", "Jogos/apostas", "Pornografia", "Compras compulsivas", "Internet/redes sociais", "Outro"],
   examesPsiquiatria: ["Exames laboratoriais", "Beta-HCG", "ECG", "Litemia", "Valproato serico", "Prolactina", "Triagem toxicologica", "EEG", "TC", "RNM", "Outro"],
   // Sintomas marginais e residuais: o que persiste depois de controlado o

@@ -56,9 +56,9 @@ export function clinicalSummaryGroups(form = {}, patient = {}, retornos = []) {
   const geriatricRows = geriatricHistoryFields.map(([key, label]) =>
     summaryTextRow("Avaliação geriátrica", label, form[key]));
   const complementaryRows = [
-    summaryGroupedOptionRow("Antecedentes", "Psiquiátricos prévios", "psiPrevios", optionGroups.psiPrevios || [], form, "psiPreviosOutro"),
-    summaryGroupedOptionRow("Antecedentes", "Tratamentos prévios", "tratamentos", optionGroups.tratamentos || [], form, "tratamentosOutro"),
-    summaryGroupedOptionRow("Antecedentes familiares", "História familiar", "familiares", optionGroups.familiares || [], form, "familiaresOutro"),
+    summaryGroupedOptionRow("Antecedentes", "Condições clínicas prévias", "geriatriaDiagnosticos", optionGroups.geriatriaDiagnosticos || [], form, "geriatriaDiagnosticosOutro"),
+    summaryGroupedOptionRow("Antecedentes", "Tratamentos e internações prévios", "geriatriaTratamentos", optionGroups.geriatriaTratamentos || [], form, "geriatriaTratamentosOutro"),
+    summaryGroupedOptionRow("Antecedentes familiares", "História familiar relevante", "geriatriaFamiliares", optionGroups.geriatriaFamiliares || [], form, "geriatriaFamiliaresOutro"),
     summaryGroupedOptionRow("Fatores de piora", "Fatores identificados", "fatores", optionGroups.fatores || [], form, "fatoresOutro"),
     summaryGroupedOptionRow("Fatores de melhora", "Fatores identificados", "fatoresMelhora", optionGroups.fatoresMelhora || [], form, "fatoresMelhoraOutro"),
     summaryGroupedOptionRow("Impacto funcional", "Áreas afetadas", "impacto", optionGroups.impacto || [], form, "impactoOutro")

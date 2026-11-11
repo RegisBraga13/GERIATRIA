@@ -322,6 +322,9 @@ function professionalReligion(value = "") {
 
 function evolutionAntecedentsText(form = {}) {
   const psychiatric = professionalClinicalTerms(joinWithOutro(form.psiPrevios, form.psiPreviosOutro));
+  const geriatricDiagnoses = professionalClinicalTerms(joinWithOutro(form.geriatriaDiagnosticos, form.geriatriaDiagnosticosOutro));
+  const geriatricTreatments = professionalClinicalTerms(joinWithOutro(form.geriatriaTratamentos, form.geriatriaTratamentosOutro));
+  const geriatricFamily = professionalClinicalTerms(joinWithOutro(form.geriatriaFamiliares, form.geriatriaFamiliaresOutro));
   const treatments = professionalClinicalTerms(joinWithOutro(form.tratamentos, form.tratamentosOutro));
   const medical = professionalClinicalTerms(joinWithOutro(form.medicos, form.medicosOutro));
   const family = professionalClinicalTerms(joinWithOutro(form.familiares, form.familiaresOutro));
@@ -329,9 +332,10 @@ function evolutionAntecedentsText(form = {}) {
   const addictive = professionalClinicalTerms(joinWithOutro(form.usoSubstanciasComportamentos, form.usoSubstanciasComportamentosOutro));
   const parts = [
     psychiatric ? `Apresenta antecedentes psiquiátricos de ${lowerFirst(psychiatric)}.` : "",
-    treatments ? `Realizou tratamentos prévios com ${lowerFirst(treatments)}.` : "",
+    geriatricDiagnoses ? `Apresenta condições clínicas prévias: ${lowerFirst(geriatricDiagnoses)}.` : "",
+    geriatricTreatments ? `Realizou tratamentos ou internações prévios: ${lowerFirst(geriatricTreatments)}.` : (treatments ? `Realizou tratamentos prévios com ${lowerFirst(treatments)}.` : ""),
     medical ? (/^nega\b/i.test(medical) ? `${capitalizeFirst(stripFinalPeriod(medical))}.` : `Apresenta antecedentes médicos de ${lowerFirst(medical)}.`) : "",
-    family ? `Há antecedentes familiares de ${lowerFirst(family)}.` : "",
+    geriatricFamily ? `Há antecedentes familiares relevantes de ${lowerFirst(geriatricFamily)}.` : (family ? `Há antecedentes familiares de ${lowerFirst(family)}.` : ""),
     substances ? `Relata hábitos ou uso de substâncias relacionados a ${lowerFirst(substances)}.` : "",
     addictive ? `Foram registrados hábitos, substâncias ou comportamentos aditivos: ${lowerFirst(addictive)}.` : ""
   ].filter(Boolean);

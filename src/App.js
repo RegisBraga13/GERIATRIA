@@ -701,17 +701,15 @@ function consultationPageBody(form, patient) {
         Caixas com esta marca foram preenchidas pela extração da IA a partir da transcrição e ainda não foram conferidas por você. A marca sai quando você toca a caixa.</p>
     ` : ""}
     ${geriatricHistoryBody(form)}
-    ${anamnesisQuestionGuide()}
     <div class="clinical-card antecedents-card">
       <h4>Antecedentes pessoais e familiares</h4>
-      ${chips("psiPrevios", "Diagnosticos psiquiatricos previos", optionGroups.psiPrevios, form.psiPrevios, form)}
-      ${chips("tratamentos", "Tratamentos previos", optionGroups.tratamentos, form.tratamentos, form)}
+      ${chips("geriatriaDiagnosticos", "Condições clínicas prévias", optionGroups.geriatriaDiagnosticos, form.geriatriaDiagnosticos, form)}
+      ${chips("geriatriaTratamentos", "Tratamentos e internações prévios", optionGroups.geriatriaTratamentos, form.geriatriaTratamentos, form)}
       ${previousPharmacologicalTreatmentReportField(form)}
       ${textarea("medicos", "Antecedentes medicos", joinValues(form.medicos), "", 2)}
-      ${chips("familiares", "Antecedentes familiares", optionGroups.familiares, form.familiares, form)}
+      ${chips("geriatriaFamiliares", "Antecedentes familiares relevantes", optionGroups.geriatriaFamiliares, form.geriatriaFamiliares, form)}
     </div>
     ${caregiverHistoryCard(form, patient)}
-    ${reproductiveHistoryCard(form, patient)}
     ${chips("fatores", "Fatores desencadeantes e de piora", optionGroups.fatores, form.fatores, form)}
     ${chips("fatoresMelhora", "Fatores de melhora", optionGroups.fatoresMelhora, form.fatoresMelhora, form)}
     ${chips("impacto", "Impacto funcional", optionGroups.impacto, form.impacto, form)}

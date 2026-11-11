@@ -1266,9 +1266,12 @@ function clinicalPromptData(form = {}, patient = {}, previous = null, isReturn =
       ? `Contexto de crianca/adolescente: quem relata ${joinWithOutro(form.informante, form.informanteOutro) || "nao informado"}; escola ${joinWithOutro(form.escolaridadeContexto, form.escolaridadeContextoOutro) || "nao informado"}; desenvolvimento ${stripFinalPeriod(form.desenvolvimento || "") || "nao informado"}.`
       : "",
     `Antecedentes psiquiatricos: ${joinWithOutro(form.psiPrevios, form.psiPreviosOutro) || "nao informado"}.`,
+    `Condicoes clinicas previas: ${joinWithOutro(form.geriatriaDiagnosticos, form.geriatriaDiagnosticosOutro) || "nao informado"}.`,
+    `Tratamentos e internacoes previos: ${joinWithOutro(form.geriatriaTratamentos, form.geriatriaTratamentosOutro) || "nao informado"}.`,
     `Tratamentos previos: ${joinWithOutro(form.tratamentos, form.tratamentosOutro) || "nao informado"}.`,
     `Antecedentes medicos: ${joinWithOutro(form.medicos, form.medicosOutro) || "nao informado"}.`,
     `Antecedentes familiares: ${joinWithOutro(form.familiares, form.familiaresOutro) || "nao informado"}.`,
+    `Antecedentes familiares relevantes: ${joinWithOutro(form.geriatriaFamiliares, form.geriatriaFamiliaresOutro) || "nao informado"}.`,
     `Substancias/habitos: ${joinWithOutro(form.substancias, form.substanciasOutro) || joinWithOutro(form.usoSubstanciasComportamentos, form.usoSubstanciasComportamentosOutro) || "nao informado"}.`,
     `Exame psiquico: ${mentalStateFindings(form).length ? formatClinicalList(mentalStateFindings(form)) : "nao informado"}.`,
     // O exame fisico nunca chegou aqui. No caso de teste, as cicatrizes de
